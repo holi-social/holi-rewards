@@ -1,6 +1,10 @@
 import { Handler } from "@std/http/unstable-route";
 import { STATUS_CODE, STATUS_TEXT, StatusCode } from "@std/http";
-import { extractJwt, verifyGoogleJWT } from "./jwt.ts";
+import {
+  extractJwt,
+  shouldSkipJwtVerification,
+  verifyGoogleJWT,
+} from "./jwt.ts";
 import { EventType, PostCreatedPayload, PubSubEvent } from "./types.ts";
 import { decodeBase64 } from "@std/encoding/base64";
 import { match } from "ts-pattern";
@@ -22,15 +26,17 @@ const decodePayload = <PayloadType extends object>(
 };
 
 export const handler: Handler = async (request): Promise<Response> => {
-  const jwt = extractJwt(request);
-  if (!jwt) {
-    return errorResponse(STATUS_CODE.Forbidden);
-  }
+  if (!shouldSkipJwtVerification()) {
+    const jwt = extractJwt(request);
+    if (!jwt) {
+      return errorResponse(STATUS_CODE.Forbidden);
+    }
 
-  const jwtIsValid = await verifyGoogleJWT(jwt);
-  if (!jwtIsValid) {
-    logger.error("Could not verify JWT", { jwt });
-    return errorResponse(STATUS_CODE.Forbidden);
+    const jwtIsValid = await verifyGoogleJWT(jwt);
+    if (!jwtIsValid) {
+      logger.error("Could not verify JWT", { jwt });
+      return errorResponse(STATUS_CODE.Forbidden);
+    }
   }
 
   const body: PubSubEvent = await request.json();

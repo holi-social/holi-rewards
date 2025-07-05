@@ -1,6 +1,7 @@
-import { createRemoteJWKSet, errors, jwtVerify } from "@panva/jose";
+import { createRemoteJWKSet, errors, JWTPayload, jwtVerify } from "@panva/jose";
 import { getLogger } from "../logger.ts";
 import { HEADER } from "@std/http/unstable-header";
+import { requireEnv } from "../utils.ts";
 
 const logger = getLogger("eventProcessor", "jwt");
 
@@ -8,14 +9,34 @@ export const googleJWKS = createRemoteJWKSet(
   new URL("https://www.googleapis.com/oauth2/v3/certs"),
 );
 
+export const shouldSkipJwtVerification = () =>
+  Deno.env.has("SKIP_JWT_VERIFICATION");
+
 export const verifyGoogleJWT = async (token: string): Promise<boolean> => {
+  const matchAud = requireEnv("JWT_AUDIENCE");
+  const matchEmail = requireEnv("JWT_EMAIL");
+
   try {
-    await jwtVerify(token, googleJWKS);
+    const { payload } = await jwtVerify<
+      JWTPayload & { email: string }
+    >(token, googleJWKS, {
+      audience: matchAud,
+    });
+
+    if (payload.email !== matchEmail) {
+      throw new errors.JWTClaimValidationFailed(
+        "email does not match",
+        payload,
+        "email",
+      );
+    }
+
     return true;
   } catch (e) {
     if (
       e instanceof errors.JWSInvalid ||
-      e instanceof errors.JWSSignatureVerificationFailed
+      e instanceof errors.JWSSignatureVerificationFailed ||
+      e instanceof errors.JWTClaimValidationFailed
     ) {
       return false;
     }
