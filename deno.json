@@ -1,0 +1,31 @@
+{
+  "tasks": {
+    "serve:dev": "deno -A --watch ./src/api/index.ts",
+    "drizzle": "deno -A --node-modules-dir npm:drizzle-kit",
+    "db:migrate": "deno -A --node-modules-dir npm:drizzle-kit migrate --config ./drizzle.config.ts",
+    "db:reset": "deno -A ./src/db/scripts/reset.ts",
+    "db:seed": "deno -A ./src/db/scripts/seed.ts"
+  },
+  "imports": {
+    "@logtape/logtape": "jsr:@logtape/logtape@^1.0.2",
+    "@panva/jose": "jsr:@panva/jose@^6.0.11",
+    "@std/assert": "jsr:@std/assert@1",
+    "@std/encoding": "jsr:@std/encoding@^1.0.10",
+    "@std/http": "jsr:@std/http@^1.0.19",
+    "@types/pg": "npm:@types/pg@^8.15.4",
+    "drizzle-kit": "npm:drizzle-kit@^0.31.4",
+    "drizzle-orm": "npm:drizzle-orm@^0.44.2",
+    "drizzle-seed": "npm:drizzle-seed@^0.3.1",
+    "graphql-yoga": "npm:graphql-yoga@^5.14.0",
+    "pg": "npm:pg@^8.16.3",
+    "ts-pattern": "npm:ts-pattern@^5.7.1"
+  },
+  "fmt": {
+    "semiColons": true,
+    "singleQuote": false,
+    "include": [
+      "src/",
+      "drizzle.config.ts"
+    ]
+  }
+}

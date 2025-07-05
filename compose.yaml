@@ -1,0 +1,25 @@
+services:
+  app:
+    image: denoland/deno:2.4.0
+    working_dir: /app
+    env_file:
+      - .env
+    volumes:
+      - ".:/app"
+    command: ["run", "serve:dev"]
+    ports:
+      - "8000:8000"
+
+  db:
+    image: postgres:17.4
+    environment:
+      POSTGRES_USER: ${DB_USER:-rewards}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-supersecret}
+      POSTGRES_DB: ${DB_NAME:-rewards}
+    volumes:
+      - "db_data:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+
+volumes:
+  db_data:
