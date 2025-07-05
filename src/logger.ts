@@ -6,9 +6,14 @@ import {
 
 export const configureLogger = async () => {
   await configure({
-    sinks: { console: getConsoleSink() },
+    sinks: {
+      console: getConsoleSink({
+        formatter: (record) => JSON.stringify(record) + "\n",
+      }),
+    },
     loggers: [
-      { category: "holi-rewards", lowestLevel: "debug", sinks: ["console"] },
+      { category: ["holi-rewards"], lowestLevel: "debug", sinks: ["console"] },
+      { category: ["logtape", "meta"], sinks: [] },
     ],
   });
 };

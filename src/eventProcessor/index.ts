@@ -1,25 +1,17 @@
 import { Handler } from "@std/http/unstable-route";
-import { STATUS_CODE } from "@std/http";
-import { HEADER } from "@std/http/unstable-header";
-import { verifyGoogleJWT } from "./jwt.ts";
+import { STATUS_CODE, STATUS_TEXT, StatusCode } from "@std/http";
+import { extractJwt, verifyGoogleJWT } from "./jwt.ts";
 import { EventType, PostCreatedPayload, PubSubEvent } from "./types.ts";
 import { decodeBase64 } from "@std/encoding/base64";
 import { match } from "ts-pattern";
 import { TransactionRepository } from "../db/repository.ts";
 import { RewardType } from "../types.ts";
+import { getLogger } from "../logger.ts";
 
-const extractJwt = (request: Request): string | undefined => {
-  const header = request.headers.get(HEADER.Authorization);
-  if (!header) return undefined;
+const logger = getLogger("eventProcessor");
 
-  const match = header.match(/^Bearer (.+)$/i);
-  if (!match) return undefined;
-
-  return match[1];
-};
-
-const errorResponse = (message: string, code: number): Response =>
-  Response.json({ error: message }, { status: code });
+const errorResponse = (code: StatusCode): Response =>
+  Response.json({ error: STATUS_TEXT[code] }, { status: code });
 
 const decodePayload = <PayloadType extends object>(
   data: string,
@@ -32,11 +24,14 @@ const decodePayload = <PayloadType extends object>(
 export const handler: Handler = async (request): Promise<Response> => {
   const jwt = extractJwt(request);
   if (!jwt) {
-    return errorResponse("Bad authorization", STATUS_CODE.Forbidden);
+    return errorResponse(STATUS_CODE.Forbidden);
   }
 
   const jwtIsValid = await verifyGoogleJWT(jwt);
-  if (!jwtIsValid) return errorResponse("Invalid JWT", STATUS_CODE.Forbidden);
+  if (!jwtIsValid) {
+    logger.error("Could not verify JWT", { jwt });
+    return errorResponse(STATUS_CODE.Forbidden);
+  }
 
   const body: PubSubEvent = await request.json();
 
