@@ -15,6 +15,20 @@
       "when": 1751644384127,
       "tag": "0001_glamorous_bullseye",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1751720587326,
+      "tag": "0002_dear_nightcrawler",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1751725032097,
+      "tag": "0003_reflective_sunfire",
+      "breakpoints": true
     }
   ]
 }
