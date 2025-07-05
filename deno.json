@@ -1,6 +1,7 @@
 {
   "tasks": {
-    "serve:dev": "deno -A --watch ./src/api/index.ts",
+    "serve": "deno -A ./src/index.ts",
+    "serve:dev": "deno -A --watch ./src/index.ts",
     "drizzle": "deno run -A npm:drizzle-kit",
     "db:migrate": "deno run -A npm:drizzle-kit migrate --config ./drizzle.config.ts",
     "db:reset": "deno -A ./src/db/scripts/reset.ts",
