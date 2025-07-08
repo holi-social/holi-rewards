@@ -22,3 +22,14 @@ resource "google_kms_crypto_key_iam_member" "rewards" {
   role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
   member        = "serviceAccount:${google_service_account.rewards.email}"
 }
+
+resource "google_project_service_identity" "pubsub" {
+  project = local.project
+  service = "pubsub.googleapis.com"
+}
+
+resource "google_project_iam_member" "pubsub_sa_token_creator" {
+  project = local.project
+  role    = "roles/iam.serviceAccountTokenCreator"
+  member  = google_project_service_identity.pubsub.member
+}
