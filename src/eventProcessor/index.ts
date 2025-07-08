@@ -69,7 +69,9 @@ export const handler: Handler = async (request): Promise<Response> => {
         rewardValue: 1,
       });
     })
-    .exhaustive();
+    .otherwise(() =>
+      logger.info(`Message with eventType ${eventType} won't be handled`),
+    );
 
   return new Response(null, { status: STATUS_CODE.OK });
 };
