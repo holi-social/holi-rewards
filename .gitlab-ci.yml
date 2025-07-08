@@ -1,5 +1,6 @@
 stages:
   - lint
+  - build
 
 lint:
   image:
@@ -15,3 +16,18 @@ lint:
   rules:
     - if: $CI_COMMIT_BRANCH
     - if: $CI_MERGE_REQUEST_ID
+
+build:docker:
+  image: europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:28
+  stage: build
+  services:
+    - name: europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:28-dind
+      alias: docker
+  variables:
+    GCR_IMAGE: europe-north1-docker.pkg.dev/holi-shared/docker/holi-rewards
+  script:
+    - docker pull $GCR_IMAGE || true
+    - docker build --cache-from=$GCR_IMAGE -t $GCR_IMAGE:latest -t $GCR_IMAGE:$CI_COMMIT_SHA -t $GCR_IMAGE:$CI_COMMIT_REF_SLUG .
+    - docker push -a $GCR_IMAGE
+  tags:
+    - 4cpu-4gb
