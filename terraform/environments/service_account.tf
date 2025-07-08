@@ -24,8 +24,9 @@ resource "google_kms_crypto_key_iam_member" "rewards" {
 }
 
 resource "google_project_service_identity" "pubsub" {
-  project = local.project
-  service = "pubsub.googleapis.com"
+  provider = google-beta
+  project  = local.project
+  service  = "pubsub.googleapis.com"
 }
 
 resource "google_project_iam_member" "pubsub_sa_token_creator" {
