@@ -1,10 +1,6 @@
 resource "google_sql_database" "rewards" {
   name     = local.name_generic_max30
   instance = local.shared_db_instance
-
-  lifecycle {
-    prevent_destroy = local.is_production
-  }
 }
 
 resource "google_sql_user" "rewards" {
