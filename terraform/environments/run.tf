@@ -124,3 +124,8 @@ resource "google_cloud_run_service_iam_policy" "rewards" {
 
   policy_data = data.google_iam_policy.rewards.policy_data
 }
+
+output "backend_domain" {
+  value       = google_cloud_run_domain_mapping.rewards_backend.name
+  description = "Internal domain name for the Rewards API"
+}
