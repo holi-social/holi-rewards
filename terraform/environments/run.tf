@@ -68,7 +68,7 @@ resource "google_cloud_run_service" "rewards_backend" {
         "autoscaling.knative.dev/maxScale" = "1"
 
         "run.googleapis.com/vpc-access-connector" = data.terraform_remote_state.holi_infra_state.outputs.vpc_access_connector_name
-        "run.googleapis.com/vpc-access-egress"    = "private-ranges-only"
+        "run.googleapis.com/vpc-access-egress"    = "all-traffic"
         "run.googleapis.com/startup-cpu-boost"    = "true"
       }
 
@@ -76,6 +76,17 @@ resource "google_cloud_run_service" "rewards_backend" {
         "environment_type" = local.environment_type
         "holi_service"     = "rewards"
       }
+    }
+  }
+
+  metadata {
+    annotations = {
+      "run.googleapis.com/ingress" = "internal"
+    }
+
+    labels = {
+      "environment_type" = local.environment_type
+      "holi_service"     = "rewards"
     }
   }
 
