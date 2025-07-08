@@ -8,7 +8,7 @@ services:
       - ".:/app"
     command: ["run", "serve:dev"]
     ports:
-      - "8000:8000"
+      - "8015:8000"
 
   db:
     image: postgres:17.4
@@ -19,7 +19,7 @@ services:
     volumes:
       - "db_data:/var/lib/postgresql/data"
     ports:
-      - "5432:5432"
+      - "5435:5432"
 
 volumes:
   db_data:
