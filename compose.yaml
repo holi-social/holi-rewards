@@ -4,9 +4,11 @@ services:
     working_dir: /app
     env_file:
       - .env
+    environment:
+      FAKE: ${FAKE:-false}
     volumes:
       - ".:/app"
-    command: ["run", "serve:dev"]
+    command: /bin/sh -c "deno run db:migrate && echo && deno run serve:dev"
     ports:
       - "8015:8000"
 
