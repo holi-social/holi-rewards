@@ -8,7 +8,7 @@ resource "google_pubsub_subscription" "rewards_push" {
   topic = local.okuna_topic
 
   push_config {
-    push_endpoint = "https://${local.rewards_domain}/pubsub"
+    push_endpoint = "https://${trim(local.rewards_domain, ".")}/pubsub"
     attributes = {
       x-goog-version = "v1"
     }
