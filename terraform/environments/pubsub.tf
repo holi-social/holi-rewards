@@ -18,6 +18,4 @@ resource "google_pubsub_subscription" "rewards_push" {
       audience              = local.jwt_audience
     }
   }
-
-  enable_exactly_once_delivery = true
 }

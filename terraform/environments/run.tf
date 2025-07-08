@@ -108,7 +108,8 @@ data "google_iam_policy" "rewards" {
 
 resource "google_cloud_run_service_iam_policy" "rewards" {
   location = google_cloud_run_service.rewards_backend.location
-  service  = google_cloud_run_service.rewards_backend.id
+  project  = google_cloud_run_service.rewards_backend.project
+  service  = google_cloud_run_service.rewards_backend.name
 
   policy_data = data.google_iam_policy.rewards.policy_data
 }
