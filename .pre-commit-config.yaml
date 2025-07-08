@@ -1,0 +1,15 @@
+repos:
+    - repo: local
+      hooks:
+          - id: gitleaks
+            name: gitleaks
+            language: system
+            entry: gitleaks protect --staged -v -c ../.gitleaks.toml
+            pass_filenames: false
+            always_run: true
+          - id: biome
+            name: biome check
+            entry: deno run biome check --write --files-ignore-unknown=true --no-errors-on-unmatched
+            language: system
+            types: [text]
+            files: "\\.(jsx?|tsx?|json)"

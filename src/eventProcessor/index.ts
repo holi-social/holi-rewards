@@ -1,16 +1,20 @@
-import { Handler } from "@std/http/unstable-route";
-import { STATUS_CODE, STATUS_TEXT, StatusCode } from "@std/http";
+import { decodeBase64 } from "@std/encoding/base64";
+import { STATUS_CODE, STATUS_TEXT, type StatusCode } from "@std/http";
+import type { Handler } from "@std/http/unstable-route";
+import { match } from "ts-pattern";
+import { TransactionRepository } from "../db/repository.ts";
+import { getLogger } from "../logger.ts";
+import { RewardType } from "../types.ts";
 import {
   extractJwt,
   shouldSkipJwtVerification,
   verifyGoogleJWT,
 } from "./jwt.ts";
-import { EventType, PostCreatedPayload, PubSubEvent } from "./types.ts";
-import { decodeBase64 } from "@std/encoding/base64";
-import { match } from "ts-pattern";
-import { TransactionRepository } from "../db/repository.ts";
-import { RewardType } from "../types.ts";
-import { getLogger } from "../logger.ts";
+import {
+  EventType,
+  type PostCreatedPayload,
+  type PubSubEvent,
+} from "./types.ts";
 
 const logger = getLogger("eventProcessor");
 
@@ -20,9 +24,9 @@ const errorResponse = (code: StatusCode): Response =>
 const decodePayload = <PayloadType extends object>(
   data: string,
 ): PayloadType => {
-  return JSON.parse(new TextDecoder().decode(
-    decodeBase64(data),
-  )) as PayloadType;
+  return JSON.parse(
+    new TextDecoder().decode(decodeBase64(data)),
+  ) as PayloadType;
 };
 
 export const handler: Handler = async (request): Promise<Response> => {

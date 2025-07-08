@@ -1,0 +1,17 @@
+stages:
+  - lint
+
+lint:
+  image:
+    name: ghcr.io/biomejs/biome:2.0.6
+    entrypoint: [""]
+  stage: lint
+  script:
+    - biome ci --reporter=gitlab --colors=off > /tmp/code-quality.json
+    - cp /tmp/code-quality.json code-quality.json
+  artifacts:
+    paths:
+      - code-quality.json
+  rules:
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_MERGE_REQUEST_ID

@@ -1,14 +1,14 @@
 import {
+  getLogger as baseGetLogger,
   configure,
   getConsoleSink,
-  getLogger as baseGetLogger,
 } from "@logtape/logtape";
 
 export const configureLogger = async () => {
   await configure({
     sinks: {
       console: getConsoleSink({
-        formatter: (record) => JSON.stringify(record) + "\n",
+        formatter: (record) => `${JSON.stringify(record)}\n`,
       }),
     },
     loggers: [

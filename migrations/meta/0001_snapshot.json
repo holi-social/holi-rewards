@@ -72,10 +72,7 @@
     "public.reward_type": {
       "name": "reward_type",
       "schema": "public",
-      "values": [
-        "ChallengeSubmitted",
-        "PostCreated"
-      ]
+      "values": ["ChallengeSubmitted", "PostCreated"]
     }
   },
   "schemas": {},

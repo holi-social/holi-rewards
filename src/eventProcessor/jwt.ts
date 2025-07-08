@@ -1,6 +1,11 @@
-import { createRemoteJWKSet, errors, JWTPayload, jwtVerify } from "@panva/jose";
-import { getLogger } from "../logger.ts";
+import {
+  createRemoteJWKSet,
+  errors,
+  type JWTPayload,
+  jwtVerify,
+} from "@panva/jose";
 import { HEADER } from "@std/http/unstable-header";
+import { getLogger } from "../logger.ts";
 import { requireEnv } from "../utils.ts";
 
 const logger = getLogger("eventProcessor", "jwt");
@@ -17,11 +22,13 @@ export const verifyGoogleJWT = async (token: string): Promise<boolean> => {
   const matchEmail = requireEnv("JWT_EMAIL");
 
   try {
-    const { payload } = await jwtVerify<
-      JWTPayload & { email: string }
-    >(token, googleJWKS, {
-      audience: matchAud,
-    });
+    const { payload } = await jwtVerify<JWTPayload & { email: string }>(
+      token,
+      googleJWKS,
+      {
+        audience: matchAud,
+      },
+    );
 
     if (payload.email !== matchEmail) {
       throw new errors.JWTClaimValidationFailed(

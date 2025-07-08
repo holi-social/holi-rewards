@@ -1,9 +1,9 @@
-import type { Route } from "@std/http/unstable-route";
 import { METHOD } from "@std/http/unstable-method";
-import schema from "./schema.ts";
+import type { Route } from "@std/http/unstable-route";
 import { createYoga } from "graphql-yoga";
 import { handler as pubsubHandler } from "../eventProcessor/index.ts";
 import { getLogger } from "../logger.ts";
+import schema from "./schema.ts";
 
 const yoga = createYoga({
   schema,

@@ -1,8 +1,8 @@
-import { RewardType } from "../../types.ts";
 import { randomUUID } from "node:crypto";
-import { TransactionRepository } from "../repository.ts";
 import { randomIntegerBetween, sample } from "@std/random";
 import { ulid } from "ulid";
+import { RewardType } from "../../types.ts";
+import { TransactionRepository } from "../repository.ts";
 
 const USER_COUNT = 3;
 const TRANSACTIONS_PER_USER = 10;
@@ -19,10 +19,9 @@ const randomTimestampInLastSevenDays = () => {
     now.epochMilliseconds,
   );
 
-  return Temporal.Instant.fromEpochMilliseconds(randomTimestampBetween)
-    .toZonedDateTimeISO(
-      "UTC",
-    );
+  return Temporal.Instant.fromEpochMilliseconds(
+    randomTimestampBetween,
+  ).toZonedDateTimeISO("UTC");
 };
 
 for (const userId of userUuids) {
