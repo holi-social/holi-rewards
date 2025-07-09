@@ -40,11 +40,6 @@ resource "google_cloud_run_service" "rewards_backend" {
         }
 
         env {
-          name  = "JWT_AUDIENCE"
-          value = local.jwt_audience
-        }
-
-        env {
           name  = "JWT_EMAIL"
           value = google_service_account.rewards.email
         }
