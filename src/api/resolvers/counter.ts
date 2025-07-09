@@ -1,7 +1,9 @@
 import type { YogaInitialContext } from "graphql-yoga";
 import { TransactionRepository } from "../../db/repository.ts";
+import { getLogger } from "../../logger.ts";
 
 const USER_ID_HEADER = "X-Holi-User-ID";
+const logger = getLogger("grapqhl", "counter");
 
 const resolver = async (
   _: never,
@@ -12,6 +14,7 @@ const resolver = async (
 
   const userId = request.headers.get(USER_ID_HEADER);
   if (!userId || userId === "anonymous") {
+    logger.error("Could not resolve user from request", { request });
     throw new Error("User is not authenticated");
   }
 
