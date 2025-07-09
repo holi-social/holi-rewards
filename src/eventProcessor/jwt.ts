@@ -18,16 +18,12 @@ export const shouldSkipJwtVerification = () =>
   Deno.env.has("SKIP_JWT_VERIFICATION");
 
 export const verifyGoogleJWT = async (token: string): Promise<boolean> => {
-  const matchAud = requireEnv("JWT_AUDIENCE");
   const matchEmail = requireEnv("JWT_EMAIL");
 
   try {
     const { payload } = await jwtVerify<JWTPayload & { email: string }>(
       token,
       googleJWKS,
-      {
-        audience: matchAud,
-      },
     );
 
     if (payload.email !== matchEmail) {
