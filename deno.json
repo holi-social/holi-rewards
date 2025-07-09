@@ -2,6 +2,7 @@
   "tasks": {
     "serve": "deno -A ./src/index.ts",
     "serve:dev": "deno -A --watch ./src/index.ts",
+    "prod": "deno run db:migrate && deno run serve",
     "drizzle": "deno run -A drizzle-kit",
     "biome": "deno run -A @biomejs/biome",
     "fmt": "deno run -A @biomejs/biome check --fix",

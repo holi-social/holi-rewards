@@ -5,4 +5,4 @@ COPY . .
 
 RUN deno cache src/index.ts
 
-CMD ["deno", "run", "-A", "src/index.ts"]
+CMD ["deno", "task", "prod"]
