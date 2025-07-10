@@ -1,7 +1,10 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@logtape/logtape@^1.0.2": "1.0.2",
+    "jsr:@logtape/logtape@^1.0.2": "1.0.4",
+    "jsr:@logtape/logtape@^1.0.4": "1.0.4",
+    "jsr:@logtape/pretty@*": "1.0.4",
+    "jsr:@logtape/pretty@^1.0.4": "1.0.4",
     "jsr:@panva/jose@^6.0.11": "6.0.11",
     "jsr:@std/assert@1": "1.0.13",
     "jsr:@std/cli@^1.0.20": "1.0.20",
@@ -19,6 +22,7 @@
     "jsr:@std/streams@^1.0.10": "1.0.10",
     "npm:@biomejs/biome@2.0.6": "2.0.6",
     "npm:@types/node@*": "22.15.15",
+    "npm:@types/node@24.0.7": "24.0.7",
     "npm:@types/pg@^8.15.4": "8.15.4",
     "npm:drizzle-kit@*": "0.31.4_esbuild@0.25.5",
     "npm:drizzle-kit@~0.31.4": "0.31.4_esbuild@0.25.5",
@@ -32,6 +36,16 @@
   "jsr": {
     "@logtape/logtape@1.0.2": {
       "integrity": "b1a429f37464c1500dc4b0f05548a2e4782790d227754b781775f782a4038ef4"
+    },
+    "@logtape/logtape@1.0.4": {
+      "integrity": "6ada87764d995b1033c352a17fd9e20b217f3672083bc2d8debe356eac03fe10"
+    },
+    "@logtape/pretty@1.0.4": {
+      "integrity": "2c131a2135414df79d896ef6943f3643b335fb68e1857985fca89699d7580479",
+      "dependencies": [
+        "jsr:@logtape/logtape@^1.0.4",
+        "npm:@types/node@24.0.7"
+      ]
     },
     "@panva/jose@6.0.11": {
       "integrity": "90d3a31fbe29ab3ab64f5c8c7c413b8a962663d7c62eacd51cc7f41d9c42ccbf"
@@ -545,13 +559,19 @@
     "@types/node@22.15.15": {
       "integrity": "sha512-R5muMcZob3/Jjchn5LcO8jdKwSCbzqmPB6ruBxMcf9kbxtniZHP327s6C37iOfuw8mbKK3cAQa7sEl7afLrQ8A==",
       "dependencies": [
-        "undici-types"
+        "undici-types@6.21.0"
+      ]
+    },
+    "@types/node@24.0.7": {
+      "integrity": "sha512-YIEUUr4yf8q8oQoXPpSlnvKNVKDQlPMWrmOcgzoduo7kvA2UF0/BwJ/eMKFTiTtkNL17I0M6Xe2tvwFU7be6iw==",
+      "dependencies": [
+        "undici-types@7.8.0"
       ]
     },
     "@types/pg@8.15.4": {
       "integrity": "sha512-I6UNVBAoYbvuWkkU3oosC8yxqH21f4/Jc4DK71JLG3dT2mdlGe1z+ep/LQGXaKaOgcvUrsQoPRqfgtMcvZiJhg==",
       "dependencies": [
-        "@types/node",
+        "@types/node@22.15.15",
         "pg-protocol",
         "pg-types"
       ]
@@ -846,6 +866,9 @@
     "undici-types@6.21.0": {
       "integrity": "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ=="
     },
+    "undici-types@7.8.0": {
+      "integrity": "sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw=="
+    },
     "urlpattern-polyfill@10.1.0": {
       "integrity": "sha512-IGjKp/o0NL3Bso1PymYURCJxMPNAf/ILOpendP9f5B6e1rTJgdgiOvgfoT8VxCAdY+Wisb9uhGaJJf3yZ2V9nw=="
     },
@@ -856,6 +879,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@logtape/logtape@^1.0.2",
+      "jsr:@logtape/pretty@^1.0.4",
       "jsr:@panva/jose@^6.0.11",
       "jsr:@std/assert@1",
       "jsr:@std/encoding@^1.0.10",
