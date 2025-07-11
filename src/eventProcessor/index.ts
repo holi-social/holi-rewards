@@ -53,7 +53,11 @@ export const handler: Handler = async (request): Promise<Response> => {
 
   const { eventType, userId } = body.message.attributes;
 
-  if (!featureFlags.isEnabled(FeatureFlag.PHASE_1, userId)) {
+  const isFeatureFlagEnabled = await featureFlags.isEnabled(
+    FeatureFlag.PHASE_1,
+    userId,
+  );
+  if (!isFeatureFlagEnabled) {
     logger.info("Feature flag is not enabled for user {userId}", { userId });
     return PubsubResponse.ack();
   }
