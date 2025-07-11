@@ -52,6 +52,10 @@ export const handler: Handler = async (request): Promise<Response> => {
   const body: PubSubEvent = await request.json();
 
   const { eventType, userId } = body.message.attributes;
+  if (!userId) {
+    logger.debug("Event without userId, not meant for us");
+    return PubsubResponse.ack();
+  }
 
   const isFeatureFlagEnabled = await featureFlags.isEnabled(
     FeatureFlag.PHASE_1,
