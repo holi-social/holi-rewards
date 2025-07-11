@@ -44,6 +44,16 @@ resource "google_cloud_run_service" "rewards_backend" {
           value = google_service_account.rewards.email
         }
 
+        env {
+          name = "POSTHOG_API_KEY"
+          value_from {
+            secret_key_ref {
+              key  = "latest"
+              name = local.is_production ? "POSTHOG_API_KEY_PRODUCTION" : "POSTHOG_API_KEY_DEVELOPMENT"
+            }
+          }
+        }
+
         resources {
           limits = {
             cpu    = local.is_production ? "250m" : "250m"
