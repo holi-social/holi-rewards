@@ -64,6 +64,22 @@ resource "google_cloud_run_service" "rewards_backend" {
             memory = local.is_production ? "512Mi" : "512Mi"
           }
         }
+
+        startup_probe {
+          period_seconds    = 1
+          failure_threshold = 60
+          http_get {
+            path = "/health"
+          }
+        }
+
+        liveness_probe {
+          period_seconds    = 30
+          failure_threshold = 3
+          http_get {
+            path = "/health"
+          }
+        }
       }
     }
 
