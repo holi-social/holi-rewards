@@ -3,6 +3,7 @@ import { STATUS_CODE, STATUS_TEXT, type StatusCode } from "@std/http";
 import type { Handler } from "@std/http/unstable-route";
 import { match } from "ts-pattern";
 import { TransactionRepository } from "../db/repository.ts";
+import { FeatureFlag, FeatureFlags } from "../featureFlag.ts";
 import { getLogger } from "../logger.ts";
 import { RewardType } from "../types.ts";
 import {
@@ -18,9 +19,6 @@ import {
 
 const logger = getLogger("eventProcessor");
 
-const errorResponse = (code: StatusCode): Response =>
-  Response.json({ error: STATUS_TEXT[code] }, { status: code });
-
 const decodePayload = <PayloadType extends object>(
   data: string,
 ): PayloadType => {
@@ -29,23 +27,36 @@ const decodePayload = <PayloadType extends object>(
   ) as PayloadType;
 };
 
+const featureFlags = FeatureFlags.build();
+
+const PubsubResponse = {
+  ack: () => Response.json({ ok: true }, { status: STATUS_CODE.OK }),
+  nack: (status: StatusCode) =>
+    Response.json({ ok: false, error: STATUS_TEXT[status] }, { status }),
+};
+
 export const handler: Handler = async (request): Promise<Response> => {
   if (!shouldSkipJwtVerification()) {
     const jwt = extractJwt(request);
     if (!jwt) {
-      return errorResponse(STATUS_CODE.Forbidden);
+      return PubsubResponse.nack(STATUS_CODE.Forbidden);
     }
 
     const jwtIsValid = await verifyGoogleJWT(jwt);
     if (!jwtIsValid) {
       logger.error("Could not verify JWT", { jwt });
-      return errorResponse(STATUS_CODE.Forbidden);
+      return PubsubResponse.nack(STATUS_CODE.Forbidden);
     }
   }
 
   const body: PubSubEvent = await request.json();
 
   const { eventType, userId } = body.message.attributes;
+
+  if (!featureFlags.isEnabled(FeatureFlag.PHASE_1, userId)) {
+    logger.info("Feature flag is not enabled for user {userId}", { userId });
+    return PubsubResponse.ack();
+  }
 
   const repo = TransactionRepository.build();
 
@@ -73,5 +84,5 @@ export const handler: Handler = async (request): Promise<Response> => {
       logger.info(`Message with eventType ${eventType} won't be handled`),
     );
 
-  return new Response(null, { status: STATUS_CODE.OK });
+  return PubsubResponse.ack();
 };

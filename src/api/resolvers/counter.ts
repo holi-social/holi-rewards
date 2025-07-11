@@ -1,4 +1,4 @@
-import type { YogaInitialContext } from "graphql-yoga";
+import { createGraphQLError, type YogaInitialContext } from "graphql-yoga";
 import { TransactionRepository } from "../../db/repository.ts";
 import { getLogger } from "../../logger.ts";
 
@@ -15,7 +15,7 @@ const resolver = async (
   const userId = request.headers.get(USER_ID_HEADER);
   if (!userId || userId === "anonymous") {
     logger.error("Could not resolve user from request", { request });
-    throw new Error("User is not authenticated");
+    throw createGraphQLError("User is not authenticated");
   }
 
   const counter = await repo.getCounterForUser(userId);

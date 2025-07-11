@@ -30,6 +30,7 @@
     "npm:drizzle-seed@~0.3.1": "0.3.1_drizzle-orm@0.44.2__@types+pg@8.15.4__pg@8.16.3_@types+pg@8.15.4_pg@8.16.3",
     "npm:graphql-yoga@^5.14.0": "5.14.0_graphql@16.11.0",
     "npm:pg@^8.16.3": "8.16.3",
+    "npm:posthog-node@^5.5.0": "5.5.0",
     "npm:ts-pattern@^5.7.1": "5.7.1",
     "npm:ulid@^3.0.1": "3.0.1"
   },
@@ -834,6 +835,9 @@
         "xtend"
       ]
     },
+    "posthog-node@5.5.0": {
+      "integrity": "sha512-q+d6yuwCw88ZkcYTDlrF6eBkbRDgn4pA4Jp8ghm8uTfgxoGUKEcajnuMfmYudAXsly6UC4YccwQThey8p1jvgg=="
+    },
     "pure-rand@6.1.0": {
       "integrity": "sha512-bVWawvoZoBYpp6yIoQtQXHZjmz35RSVHnUOTefl8Vcjr8snTPY1wnpSPMWekcFwbxI6gtmT7rSYPFvz71ldiOA=="
     },
@@ -892,6 +896,7 @@
       "npm:drizzle-seed@~0.3.1",
       "npm:graphql-yoga@^5.14.0",
       "npm:pg@^8.16.3",
+      "npm:posthog-node@^5.5.0",
       "npm:ts-pattern@^5.7.1",
       "npm:ulid@^3.0.1"
     ]
