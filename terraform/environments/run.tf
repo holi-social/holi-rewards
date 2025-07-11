@@ -54,6 +54,12 @@ resource "google_cloud_run_service" "rewards_backend" {
           }
         }
 
+        env {
+          // disables color output in deno
+          name  = "NO_COLOR"
+          value = "true"
+        }
+
         resources {
           limits = {
             cpu    = local.is_production ? "250m" : "250m"
