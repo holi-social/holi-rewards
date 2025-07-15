@@ -35,7 +35,7 @@ for (const userId of userUuids) {
         userId,
         rewardType: sample([
           RewardType.CHALLENGE_SUBMITTED,
-          RewardType.POST_CREATED,
+          RewardType.GOOD_DEED_POST_CREATED,
         ])!,
         rewardValue: 1,
         createdAt: timestamp,

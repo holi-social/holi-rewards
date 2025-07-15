@@ -13,7 +13,7 @@ import {
 } from "./jwt.ts";
 import {
   EventType,
-  type PostCreatedPayload,
+  type FeedPostCreatedPayload,
   type PubSubEvent,
 } from "./types.ts";
 
@@ -76,14 +76,14 @@ export const handler: Handler = async (request): Promise<Response> => {
         rewardValue: 1,
       });
     })
-    .with(EventType.POST_CREATED, async () => {
-      const payload = decodePayload<PostCreatedPayload>(body.message.data);
-      if (payload.category !== "good_deeds") {
+    .with(EventType.FEED_POST_CREATED, async () => {
+      const payload = decodePayload<FeedPostCreatedPayload>(body.message.data);
+      if (payload.category !== "good-deed") {
         return;
       }
 
       await repo.create({
-        rewardType: RewardType.POST_CREATED,
+        rewardType: RewardType.GOOD_DEED_POST_CREATED,
         userId,
         rewardValue: 1,
       });

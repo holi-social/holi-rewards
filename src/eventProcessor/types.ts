@@ -1,6 +1,6 @@
 export enum EventType {
   CHALLENGE_SUBMITTED = "ChallengeSubmitted",
-  POST_CREATED = "PostCreated",
+  FEED_POST_CREATED = "FeedPostCreated",
 }
 
 export type MessageAttributes = {
@@ -23,6 +23,6 @@ export type PubSubEvent = {
 
 export type ChallengeSubmittedPayload = Record<PropertyKey, never>;
 
-export type PostCreatedPayload = {
+export type FeedPostCreatedPayload = {
   category: string;
 };

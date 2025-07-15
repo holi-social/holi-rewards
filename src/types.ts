@@ -1,4 +1,4 @@
 export enum RewardType {
   CHALLENGE_SUBMITTED = "ChallengeSubmitted",
-  POST_CREATED = "PostCreated",
+  GOOD_DEED_POST_CREATED = "GoodDeedPostCreated",
 }
