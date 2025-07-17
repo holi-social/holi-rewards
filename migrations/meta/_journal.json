@@ -29,6 +29,13 @@
       "when": 1751725032097,
       "tag": "0003_reflective_sunfire",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1752743234544,
+      "tag": "0004_pale_thor",
+      "breakpoints": true
     }
   ]
 }
