@@ -6,10 +6,12 @@ import { configureLogger, getLogger } from "./logger.ts";
 
 await configureLogger();
 const logger = getLogger("serve");
+const port = parseInt(Deno.env.get("PORT") ?? "8000", 10);
 
 if (Deno.env.get("FAKE") === "true") {
   Deno.serve(
     {
+      port,
       onListen: () => {
         logger.info`holi-rewards FAKE server started`;
       },
@@ -19,6 +21,7 @@ if (Deno.env.get("FAKE") === "true") {
 } else {
   Deno.serve(
     {
+      port,
       onListen: () => {
         logger.info`holi-rewards server started`;
       },
