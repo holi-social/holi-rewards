@@ -88,6 +88,13 @@ export const handler: Handler = async (request): Promise<Response> => {
         rewardValue: 1,
       });
     })
+    .with(EventType.EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED, async () => {
+      await repo.create({
+        rewardType: RewardType.EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED,
+        userId,
+        rewardValue: 1,
+      });
+    })
     .otherwise(() =>
       logger.info(`Message with eventType ${eventType} won't be handled`),
     );
