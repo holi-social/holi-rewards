@@ -36,6 +36,7 @@ for (const userId of userUuids) {
         rewardType: sample([
           RewardType.CHALLENGE_SUBMITTED,
           RewardType.GOOD_DEED_POST_CREATED,
+          RewardType.EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED,
         ])!,
         rewardValue: 1,
         createdAt: timestamp,
