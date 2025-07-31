@@ -1,6 +1,7 @@
 export enum EventType {
   CHALLENGE_SUBMITTED = "ChallengeSubmitted",
   FEED_POST_CREATED = "FeedPostCreated",
+  EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED = "ExternalVolunteeringOpportunityStarted",
 }
 
 export type MessageAttributes = {
