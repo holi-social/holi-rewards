@@ -1,5 +1,6 @@
 import { createSchema } from "graphql-yoga";
 import counterResolver from "./resolvers/counter.ts";
+import globalCounterResolver from "./resolvers/globalCounter.ts";
 
 export const schema = createSchema({
   typeDefs: `
@@ -9,11 +10,13 @@ export const schema = createSchema({
 
     type Query {
       counter: RewardsCounter!
+      globalCounter: RewardsCounter!
     }
   `,
   resolvers: {
     Query: {
       counter: counterResolver,
+      globalCounter: globalCounterResolver,
     },
   },
 });

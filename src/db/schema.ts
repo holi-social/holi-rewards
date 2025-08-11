@@ -43,3 +43,15 @@ export const transaction = pgTable(
   },
   (table) => [index().on(table.userId)],
 );
+
+export const externalCounterValue = pgTable("external_counter_value", {
+  createdAt: zonedTemporalTimestamp("created_at", {
+    mode: "string",
+    withTimezone: "true",
+  })
+    .default(sql`now()`)
+    .$defaultFn(() => Temporal.Now.zonedDateTimeISO("UTC"))
+    .primaryKey(),
+
+  externalCount: integer("external_count").notNull(),
+});

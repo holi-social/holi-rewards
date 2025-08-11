@@ -17,6 +17,10 @@ const yoga = createYoga({
         counter {
           counter
         } 
+
+        globalCounter {
+          counter
+        }
       }
     `,
   },

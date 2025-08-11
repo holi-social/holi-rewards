@@ -12,11 +12,13 @@ const yoga = createYoga({
 
     type Query {
       counter: RewardsCounter!
+      globalCounter: RewardsCounter!
     }
   `,
     resolvers: {
       Query: {
         counter: () => ({ counter: 10 }),
+        globalCounter: () => ({ counter: 100 }),
       },
     },
   }),
