@@ -6,3 +6,7 @@ export const requireEnv = (envVar: string): string => {
 
   return value;
 };
+
+export const temporalToLegacyDate = (
+  temporal: Temporal.Instant | Temporal.ZonedDateTime,
+): Date => new Date(temporal.epochMilliseconds);

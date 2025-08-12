@@ -30,10 +30,23 @@ export class TransactionRepository {
     return result[0].counter;
   }
 
-  async getAllForUserId(userId: string): Promise<TransactionRow[]> {
-    return await this.db.query.transactions.findMany({
+  async getAllForUserId(
+    userId: string,
+    offset: number = 0,
+    limit: number = 10,
+  ): Promise<[TransactionRow[], number]> {
+    const count = await this.db.$count(
+      transactionTable,
+      eq(transactionTable.userId, userId),
+    );
+
+    const resultSlice = await this.db.query.transactions.findMany({
       where: eq(transactionTable.userId, userId),
       orderBy: [desc(transactionTable.createdAt)],
+      limit,
+      offset,
     });
+
+    return [resultSlice, count];
   }
 }
