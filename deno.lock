@@ -5,12 +5,14 @@
     "jsr:@logtape/logtape@^1.0.4": "1.0.4",
     "jsr:@logtape/pretty@^1.0.4": "1.0.4",
     "jsr:@panva/jose@^6.0.11": "6.0.12",
+    "jsr:@std/assert@1": "1.0.13",
     "jsr:@std/cli@^1.0.21": "1.0.21",
     "jsr:@std/encoding@^1.0.10": "1.0.10",
     "jsr:@std/fmt@^1.0.8": "1.0.8",
     "jsr:@std/fs@^1.0.19": "1.0.19",
     "jsr:@std/html@^1.0.4": "1.0.4",
     "jsr:@std/http@^1.0.19": "1.0.20",
+    "jsr:@std/internal@^1.0.6": "1.0.10",
     "jsr:@std/internal@^1.0.9": "1.0.10",
     "jsr:@std/media-types@^1.1.0": "1.1.0",
     "jsr:@std/net@^1.0.4": "1.0.4",
@@ -23,6 +25,7 @@
     "npm:drizzle-kit@~0.31.4": "0.31.4_esbuild@0.25.8",
     "npm:drizzle-orm@~0.44.2": "0.44.3_@types+pg@8.15.4_pg@8.16.3",
     "npm:drizzle-seed@~0.3.1": "0.3.1_drizzle-orm@0.44.3__@types+pg@8.15.4__pg@8.16.3_@types+pg@8.15.4_pg@8.16.3",
+    "npm:graphql-scalars@^1.24.2": "1.24.2_graphql@16.11.0",
     "npm:graphql-yoga@^5.14.0": "5.15.1_graphql@16.11.0",
     "npm:pg@^8.16.3": "8.16.3",
     "npm:posthog-node@^5.5.0": "5.6.0",
@@ -42,6 +45,12 @@
     },
     "@panva/jose@6.0.12": {
       "integrity": "b228cf79558ccc979046855bb140cd5d7bd86564dc047e563632a686b1346dcc"
+    },
+    "@std/assert@1.0.13": {
+      "integrity": "ae0d31e41919b12c656c742b22522c32fb26ed0cba32975cb0de2a273cb68b29",
+      "dependencies": [
+        "jsr:@std/internal@^1.0.6"
+      ]
     },
     "@std/cli@1.0.21": {
       "integrity": "cd25b050bdf6282e321854e3822bee624f07aca7636a3a76d95f77a3a919ca2a"
@@ -84,7 +93,7 @@
     "@std/path@1.1.1": {
       "integrity": "fe00026bd3a7e6a27f73709b83c607798be40e20c81dde655ce34052fd82ec76",
       "dependencies": [
-        "jsr:@std/internal"
+        "jsr:@std/internal@^1.0.9"
       ]
     },
     "@std/random@0.1.2": {
@@ -694,6 +703,13 @@
         "resolve-pkg-maps"
       ]
     },
+    "graphql-scalars@1.24.2_graphql@16.11.0": {
+      "integrity": "sha512-FoZ11yxIauEnH0E5rCUkhDXHVn/A6BBfovJdimRZCQlFCl+h7aVvarKmI15zG4VtQunmCDdqdtNs6ixThy3uAg==",
+      "dependencies": [
+        "graphql",
+        "tslib"
+      ]
+    },
     "graphql-yoga@5.15.1_graphql@16.11.0": {
       "integrity": "sha512-wCSnviFFGC4CF9lyeRNMW1p55xVWkMRLPu9iHYbBd8WCJEjduDTo3nh91sVktpbJdUQ6rxNBN6hhpTYMFZuMwg==",
       "dependencies": [
@@ -843,6 +859,7 @@
       "npm:drizzle-kit@~0.31.4",
       "npm:drizzle-orm@~0.44.2",
       "npm:drizzle-seed@~0.3.1",
+      "npm:graphql-scalars@^1.24.2",
       "npm:graphql-yoga@^5.14.0",
       "npm:pg@^8.16.3",
       "npm:posthog-node@^5.5.0",
