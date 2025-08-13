@@ -21,15 +21,15 @@
     "jsr:@std/streams@^1.0.10": "1.0.10",
     "npm:@biomejs/biome@2.0.6": "2.0.6",
     "npm:@types/node@24.0.7": "24.0.7",
-    "npm:@types/pg@^8.15.4": "8.15.4",
+    "npm:@types/pg@^8.15.5": "8.15.5",
     "npm:drizzle-kit@~0.31.4": "0.31.4_esbuild@0.25.8",
-    "npm:drizzle-orm@~0.44.2": "0.44.3_@types+pg@8.15.4_pg@8.16.3",
-    "npm:drizzle-seed@~0.3.1": "0.3.1_drizzle-orm@0.44.3__@types+pg@8.15.4__pg@8.16.3_@types+pg@8.15.4_pg@8.16.3",
+    "npm:drizzle-orm@~0.44.4": "0.44.4_@types+pg@8.15.5_pg@8.16.3",
+    "npm:drizzle-seed@~0.3.1": "0.3.1_drizzle-orm@0.44.4__@types+pg@8.15.5__pg@8.16.3_@types+pg@8.15.5_pg@8.16.3",
     "npm:graphql-scalars@^1.24.2": "1.24.2_graphql@16.11.0",
     "npm:graphql-yoga@^5.14.0": "5.15.1_graphql@16.11.0",
     "npm:pg@^8.16.3": "8.16.3",
     "npm:posthog-node@^5.5.0": "5.6.0",
-    "npm:ts-pattern@^5.7.1": "5.7.1",
+    "npm:ts-pattern@^5.8.0": "5.8.0",
     "npm:ulid@^3.0.1": "3.0.1"
   },
   "jsr": {
@@ -526,8 +526,8 @@
         "undici-types@7.8.0"
       ]
     },
-    "@types/pg@8.15.4": {
-      "integrity": "sha512-I6UNVBAoYbvuWkkU3oosC8yxqH21f4/Jc4DK71JLG3dT2mdlGe1z+ep/LQGXaKaOgcvUrsQoPRqfgtMcvZiJhg==",
+    "@types/pg@8.15.5": {
+      "integrity": "sha512-LF7lF6zWEKxuT3/OR8wAZGzkg4ENGXFNyiV/JeOt9z5B+0ZVwbql9McqX5c/WStFq1GaGso7H1AzP/qSzmlCKQ==",
       "dependencies": [
         "@types/node@22.15.15",
         "pg-protocol",
@@ -604,8 +604,8 @@
       ],
       "bin": true
     },
-    "drizzle-orm@0.44.3_@types+pg@8.15.4_pg@8.16.3": {
-      "integrity": "sha512-8nIiYQxOpgUicEL04YFojJmvC4DNO4KoyXsEIqN44+g6gNBr6hmVpWk3uyAt4CaTiRGDwoU+alfqNNeonLAFOQ==",
+    "drizzle-orm@0.44.4_@types+pg@8.15.5_pg@8.16.3": {
+      "integrity": "sha512-ZyzKFpTC/Ut3fIqc2c0dPZ6nhchQXriTsqTNs4ayRgl6sZcFlMs9QZKPSHXK4bdOf41GHGWf+FrpcDDYwW+W6Q==",
       "dependencies": [
         "@types/pg",
         "pg"
@@ -615,7 +615,7 @@
         "pg"
       ]
     },
-    "drizzle-seed@0.3.1_drizzle-orm@0.44.3__@types+pg@8.15.4__pg@8.16.3_@types+pg@8.15.4_pg@8.16.3": {
+    "drizzle-seed@0.3.1_drizzle-orm@0.44.4__@types+pg@8.15.5__pg@8.16.3_@types+pg@8.15.5_pg@8.16.3": {
       "integrity": "sha512-F/0lgvfOAsqlYoHM/QAGut4xXIOXoE5VoAdv2FIl7DpGYVXlAzKuJO+IphkKUFK3Dz+rFlOsQLnMNrvoQ0cx7g==",
       "dependencies": [
         "drizzle-orm",
@@ -822,8 +822,8 @@
     "split2@4.2.0": {
       "integrity": "sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg=="
     },
-    "ts-pattern@5.7.1": {
-      "integrity": "sha512-EGs8PguQqAAUIcQfK4E9xdXxB6s2GK4sJfT/vcc9V1ELIvC4LH/zXu2t/5fajtv6oiRCxdv7BgtVK3vWgROxag=="
+    "ts-pattern@5.8.0": {
+      "integrity": "sha512-kIjN2qmWiHnhgr5DAkAafF9fwb0T5OhMVSWrm8XEdTFnX6+wfXwYOFjeF86UZ54vduqiR7BfqScFmXSzSaH8oA=="
     },
     "tslib@2.8.1": {
       "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="
@@ -855,15 +855,15 @@
       "jsr:@std/http@^1.0.19",
       "jsr:@std/random@~0.1.2",
       "npm:@biomejs/biome@2.0.6",
-      "npm:@types/pg@^8.15.4",
+      "npm:@types/pg@^8.15.5",
       "npm:drizzle-kit@~0.31.4",
-      "npm:drizzle-orm@~0.44.2",
+      "npm:drizzle-orm@~0.44.4",
       "npm:drizzle-seed@~0.3.1",
       "npm:graphql-scalars@^1.24.2",
       "npm:graphql-yoga@^5.14.0",
       "npm:pg@^8.16.3",
       "npm:posthog-node@^5.5.0",
-      "npm:ts-pattern@^5.7.1",
+      "npm:ts-pattern@^5.8.0",
       "npm:ulid@^3.0.1"
     ]
   }

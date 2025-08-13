@@ -1,6 +1,9 @@
 import { desc, eq, sql } from "drizzle-orm";
 import { createDbConnection } from "./connection.ts";
-import { transaction as transactionTable } from "./schema.ts";
+import {
+  externalCounterValue as externalCounterValueTable,
+  transaction as transactionTable,
+} from "./schema.ts";
 import type { InsertTransactionRow, TransactionRow } from "./types.ts";
 
 export class TransactionRepository {
@@ -48,5 +51,33 @@ export class TransactionRepository {
     });
 
     return [resultSlice, count];
+  }
+
+  async countAll(): Promise<number> {
+    const result = await this.db
+      .select({
+        counter: sql<number>`cast(sum(${transactionTable.rewardValue}) as int)`,
+      })
+      .from(transactionTable);
+
+    return result[0]?.counter ?? 0;
+  }
+}
+
+export class ExternalCounterValueRepository {
+  static build(): ExternalCounterValueRepository {
+    return new ExternalCounterValueRepository(createDbConnection());
+  }
+
+  constructor(private readonly db: ReturnType<typeof createDbConnection>) {}
+
+  async getLatestValue(): Promise<number> {
+    const latest = await this.db
+      .select()
+      .from(externalCounterValueTable)
+      .orderBy(desc(externalCounterValueTable.createdAt))
+      .limit(1);
+
+    return latest[0]?.externalCount ?? 0;
   }
 }

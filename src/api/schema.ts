@@ -5,6 +5,7 @@ import {
 import { createSchema } from "graphql-yoga";
 
 import counterResolver from "./resolvers/counter.ts";
+import globalCounterResolver from "./resolvers/globalCounter.ts";
 import transactionsResolver from "./resolvers/transactions.ts";
 
 export const schema = createSchema({
@@ -34,6 +35,7 @@ export const schema = createSchema({
 
     type Query {
       counter: RewardsCounter!
+      globalCounter: RewardsCounter!
       transactions(offset: Int! = 0, limit: Int! = 10): PagedTransactions!
     }
   `,
@@ -41,6 +43,7 @@ export const schema = createSchema({
     DateTimeISO: DateTimeISOResolver,
     Query: {
       counter: counterResolver,
+      globalCounter: globalCounterResolver,
       transactions: transactionsResolver,
     },
   },
