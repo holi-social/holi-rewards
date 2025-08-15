@@ -1,27 +1,11 @@
 import { STATUS_CODE, STATUS_TEXT } from "@std/http";
 import { METHOD } from "@std/http/unstable-method";
 import { type Route, route } from "@std/http/unstable-route";
-import { createSchema, createYoga } from "graphql-yoga";
+import { createYoga } from "graphql-yoga";
+import fakeSchema from "./schema/fake.ts";
 
 const yoga = createYoga({
-  schema: createSchema({
-    typeDefs: `
-    type RewardsCounter {
-      counter: Int
-    }
-
-    type Query {
-      counter: RewardsCounter!
-      globalCounter: RewardsCounter!
-    }
-  `,
-    resolvers: {
-      Query: {
-        counter: () => ({ counter: 10 }),
-        globalCounter: () => ({ counter: 100 }),
-      },
-    },
-  }),
+  schema: fakeSchema,
 });
 
 const routes: Route[] = [

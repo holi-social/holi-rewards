@@ -20,6 +20,8 @@
     "jsr:@std/random@~0.1.2": "0.1.2",
     "jsr:@std/streams@^1.0.10": "1.0.10",
     "npm:@biomejs/biome@2.0.6": "2.0.6",
+    "npm:@pothos/core@^4.8.1": "4.8.1_graphql@16.11.0",
+    "npm:@pothos/plugin-mocks@^4.1.2": "4.1.2_@pothos+core@4.8.1__graphql@16.11.0_graphql@16.11.0",
     "npm:@types/node@24.0.7": "24.0.7",
     "npm:@types/pg@^8.15.5": "8.15.5",
     "npm:drizzle-kit@~0.31.4": "0.31.4_esbuild@0.25.8",
@@ -27,6 +29,7 @@
     "npm:drizzle-seed@~0.3.1": "0.3.1_drizzle-orm@0.44.4__@types+pg@8.15.5__pg@8.16.3_@types+pg@8.15.5_pg@8.16.3",
     "npm:graphql-scalars@^1.24.2": "1.24.2_graphql@16.11.0",
     "npm:graphql-yoga@^5.14.0": "5.15.1_graphql@16.11.0",
+    "npm:graphql@^16.11.0": "16.11.0",
     "npm:pg@^8.16.3": "8.16.3",
     "npm:posthog-node@^5.5.0": "5.6.0",
     "npm:ts-pattern@^5.8.0": "5.8.0",
@@ -511,6 +514,19 @@
         "tslib"
       ]
     },
+    "@pothos/core@4.8.1_graphql@16.11.0": {
+      "integrity": "sha512-C8ZVIm+ZD1WQmL90VvJtgkOmfCmrDrFyTXJeLtTgs6btS9ZbJGALBAYuc09UVab4/psCoCA7Ov7EJjmzJ0lzxw==",
+      "dependencies": [
+        "graphql"
+      ]
+    },
+    "@pothos/plugin-mocks@4.1.2_@pothos+core@4.8.1__graphql@16.11.0_graphql@16.11.0": {
+      "integrity": "sha512-T3frbnlwT/y+kxjDIGhZMJM30lZfk7G1SF32I1EAB+drbv+TVTY7t4XVJ6nDjL/1TpYdiuo9c7dcjTBs8xyiUQ==",
+      "dependencies": [
+        "@pothos/core",
+        "graphql"
+      ]
+    },
     "@repeaterjs/repeater@3.0.6": {
       "integrity": "sha512-Javneu5lsuhwNCryN+pXH93VPQ8g0dBX7wItHFgYiwQmzE1sVdg5tWHiOgHywzL2W21XQopa7IwIEnNbmeUJYA=="
     },
@@ -855,12 +871,15 @@
       "jsr:@std/http@^1.0.19",
       "jsr:@std/random@~0.1.2",
       "npm:@biomejs/biome@2.0.6",
+      "npm:@pothos/core@^4.8.1",
+      "npm:@pothos/plugin-mocks@^4.1.2",
       "npm:@types/pg@^8.15.5",
       "npm:drizzle-kit@~0.31.4",
       "npm:drizzle-orm@~0.44.4",
       "npm:drizzle-seed@~0.3.1",
       "npm:graphql-scalars@^1.24.2",
       "npm:graphql-yoga@^5.14.0",
+      "npm:graphql@^16.11.0",
       "npm:pg@^8.16.3",
       "npm:posthog-node@^5.5.0",
       "npm:ts-pattern@^5.8.0",

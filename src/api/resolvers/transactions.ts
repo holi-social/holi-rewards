@@ -1,29 +1,16 @@
-import { createGraphQLError, type YogaInitialContext } from "graphql-yoga";
+import { createGraphQLError } from "graphql-yoga";
 import { TransactionRepository } from "../../db/repository.ts";
 import { getLogger } from "../../logger.ts";
-import { temporalToLegacyDate } from "../../utils.ts";
-import type { Paged } from "./types.ts";
+import type { RewardType } from "../../types.ts";
+import type { Paged, Resolver, Transaction } from "../schema/types.ts";
 
 const USER_ID_HEADER = "X-Holi-User-ID";
 const logger = getLogger("grapqhl", "transactions");
 
-const resolver = async (
-  _: never,
-  {
-    offset,
-    limit,
-  }: {
-    offset: number;
-    limit: number;
-  },
-  { request }: YogaInitialContext,
-): Promise<
-  Paged<{
-    id: string;
-    createdAt: Date;
-    rewardType: string;
-  }>
-> => {
+const resolver: Resolver<
+  Paged<Transaction>,
+  { offset: number; limit: number }
+> = async (_, { offset, limit }, { request }): Promise<Paged<Transaction>> => {
   const repo = TransactionRepository.build();
 
   const userId = request.headers.get(USER_ID_HEADER);
@@ -42,8 +29,8 @@ const resolver = async (
     totalResults: count,
     data: transactions.map((t) => ({
       id: t.id,
-      createdAt: temporalToLegacyDate(t.createdAt),
-      rewardType: t.rewardType,
+      createdAt: t.createdAt,
+      rewardType: t.rewardType as RewardType,
     })),
   };
 };

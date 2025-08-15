@@ -3,8 +3,11 @@ import {
   ExternalCounterValueRepository,
   TransactionRepository,
 } from "../../db/repository.ts";
+import type { Resolver, RewardsCounter } from "../schema/types.ts";
 
-const resolver = async (): Promise<{ counter: number }> => {
+const resolver: Resolver<
+  RewardsCounter
+> = async (): Promise<RewardsCounter> => {
   const dbConnection = createDbConnection();
 
   const transactions = new TransactionRepository(dbConnection);

@@ -3,7 +3,7 @@ import type { Route } from "@std/http/unstable-route";
 import { createYoga } from "graphql-yoga";
 import { handler as pubsubHandler } from "../eventProcessor/index.ts";
 import { getLogger } from "../logger.ts";
-import schema from "./schema.ts";
+import schema from "./schema/index.ts";
 
 const yoga = createYoga({
   schema,

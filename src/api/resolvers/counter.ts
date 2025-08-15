@@ -1,15 +1,16 @@
-import { createGraphQLError, type YogaInitialContext } from "graphql-yoga";
+import { createGraphQLError } from "graphql-yoga";
 import { TransactionRepository } from "../../db/repository.ts";
 import { getLogger } from "../../logger.ts";
+import type { Resolver, RewardsCounter } from "../schema/types.ts";
 
 const USER_ID_HEADER = "X-Holi-User-ID";
 const logger = getLogger("grapqhl", "counter");
 
-const resolver = async (
-  _: never,
-  _args: Record<string, never>,
-  { request }: YogaInitialContext,
-): Promise<{ counter: number | null }> => {
+const resolver: Resolver<RewardsCounter> = async (
+  _parent,
+  _args,
+  { request },
+): Promise<RewardsCounter> => {
   const repo = TransactionRepository.build();
 
   const userId = request.headers.get(USER_ID_HEADER);
