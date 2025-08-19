@@ -1,8 +1,6 @@
 import { createDbConnection } from "../../db/connection.ts";
-import {
-  ExternalCounterValueRepository,
-  TransactionRepository,
-} from "../../db/repository.ts";
+import { ExternalCounterValueRepository } from "../../db/repository/externalCounter.ts";
+import { TransactionRepository } from "../../db/repository/transaction.ts";
 
 const resolver = async (): Promise<{ counter: number }> => {
   const dbConnection = createDbConnection();

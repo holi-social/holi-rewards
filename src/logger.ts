@@ -1,9 +1,4 @@
-import {
-  getLogger as baseGetLogger,
-  configure,
-  getConsoleSink,
-  jsonLinesFormatter,
-} from "@logtape/logtape";
+import { getLogger as baseGetLogger, configure, getConsoleSink, jsonLinesFormatter } from "@logtape/logtape";
 import { prettyFormatter } from "@logtape/pretty";
 
 const isDevelopment = Deno.env.get("NODE_ENV") === "development";
@@ -26,5 +21,4 @@ export const configureLogger = async () => {
   });
 };
 
-export const getLogger = (...categories: string[]) =>
-  baseGetLogger(["holi-rewards", ...categories]);
+export const getLogger = (...categories: string[]) => baseGetLogger(["holi-rewards", ...categories]);

@@ -26,8 +26,6 @@ export class FeatureFlags {
   constructor(private readonly posthog: PostHog) {}
 
   async isEnabled(flag: FeatureFlag, userId: string): Promise<boolean> {
-    return (
-      (await this.posthog.isFeatureEnabled(flag, userId)) ?? defaults[flag]
-    );
+    return (await this.posthog.isFeatureEnabled(flag, userId)) ?? defaults[flag];
   }
 }
