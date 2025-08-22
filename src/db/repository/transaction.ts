@@ -1,17 +1,16 @@
-import { desc, eq, sql } from "drizzle-orm";
-import { createDbConnection } from "./connection.ts";
-import {
-  externalCounterValue as externalCounterValueTable,
-  transaction as transactionTable,
-} from "./schema.ts";
-import type { InsertTransactionRow, TransactionRow } from "./types.ts";
+import { eq } from "drizzle-orm/sql/expressions/conditions";
+import { desc } from "drizzle-orm/sql/expressions/select";
+import { sql } from "drizzle-orm/sql/sql";
+import { createDbConnection, type DbConnection } from "../connection.ts";
+import { transaction as transactionTable } from "../schema.ts";
+import type { InsertTransactionRow, TransactionRow } from "../types.ts";
 
 export class TransactionRepository {
   static build(): TransactionRepository {
     return new TransactionRepository(createDbConnection());
   }
 
-  constructor(private readonly db: ReturnType<typeof createDbConnection>) {}
+  constructor(private readonly db: DbConnection) {}
 
   async create(transaction: InsertTransactionRow): Promise<void> {
     await this.db.insert(transactionTable).values(transaction);
@@ -33,15 +32,8 @@ export class TransactionRepository {
     return result[0].counter;
   }
 
-  async getAllForUserId(
-    userId: string,
-    offset: number = 0,
-    limit: number = 10,
-  ): Promise<[TransactionRow[], number]> {
-    const count = await this.db.$count(
-      transactionTable,
-      eq(transactionTable.userId, userId),
-    );
+  async getAllForUserId(userId: string, offset: number = 0, limit: number = 10): Promise<[TransactionRow[], number]> {
+    const count = await this.db.$count(transactionTable, eq(transactionTable.userId, userId));
 
     const resultSlice = await this.db.query.transactions.findMany({
       where: eq(transactionTable.userId, userId),
@@ -61,23 +53,5 @@ export class TransactionRepository {
       .from(transactionTable);
 
     return result[0]?.counter ?? 0;
-  }
-}
-
-export class ExternalCounterValueRepository {
-  static build(): ExternalCounterValueRepository {
-    return new ExternalCounterValueRepository(createDbConnection());
-  }
-
-  constructor(private readonly db: ReturnType<typeof createDbConnection>) {}
-
-  async getLatestValue(): Promise<number> {
-    const latest = await this.db
-      .select()
-      .from(externalCounterValueTable)
-      .orderBy(desc(externalCounterValueTable.createdAt))
-      .limit(1);
-
-    return latest[0]?.externalCount ?? 0;
   }
 }

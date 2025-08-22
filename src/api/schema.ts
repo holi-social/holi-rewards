@@ -1,12 +1,6 @@
-import {
-  DateTimeISOResolver,
-  DateTimeISOTypeDefinition,
-} from "graphql-scalars";
 import { createSchema } from "graphql-yoga";
-
-import counterResolver from "./resolvers/counter.ts";
-import globalCounterResolver from "./resolvers/globalCounter.ts";
-import transactionsResolver from "./resolvers/transactions.ts";
+import { DateTimeISOResolver, DateTimeISOTypeDefinition } from "./resolvers/datetime.ts";
+import { mutations, queries } from "./resolvers/index.ts";
 
 export const schema = createSchema({
   typeDefs: `
@@ -33,19 +27,39 @@ export const schema = createSchema({
       totalResults: Int!
     }
 
+    type UnlockedBadge {
+      id: ID!
+      slug: String!
+      unlockedAt: DateTimeISO!
+      seenAt: DateTimeISO
+    }
+
+    type InProgressBadge {
+      slug: String!
+      progressMade: Int
+      progressGoal: Int
+    }
+
+    type BadgesOverview {
+      unlocked: [UnlockedBadge]!
+      inProgress: [InProgressBadge]!
+    }
+
     type Query {
       counter: RewardsCounter!
       globalCounter: RewardsCounter!
       transactions(offset: Int! = 0, limit: Int! = 10): PagedTransactions!
+      badges: BadgesOverview!
+    }
+    
+    type Mutation {
+      markBadgeUnlockAsSeen(unlockId: ID!): UnlockedBadge!
     }
   `,
   resolvers: {
     DateTimeISO: DateTimeISOResolver,
-    Query: {
-      counter: counterResolver,
-      globalCounter: globalCounterResolver,
-      transactions: transactionsResolver,
-    },
+    Query: queries,
+    Mutation: mutations,
   },
 });
 

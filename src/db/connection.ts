@@ -1,6 +1,10 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { requireEnv } from "../utils.ts";
-import { transaction as transactionSchema } from "./schema.ts";
+import {
+  externalCounterValue as externalCounterValueSchema,
+  transaction as transactionSchema,
+  unlockedBadge as unlockedBadgeSchema,
+} from "./schema.ts";
 
 const getDbUrl = () => {
   const [host, port, database, user, password] = [
@@ -16,5 +20,11 @@ const getDbUrl = () => {
 
 export const createDbConnection = () =>
   drizzle(getDbUrl(), {
-    schema: { transactions: transactionSchema },
+    schema: {
+      transactions: transactionSchema,
+      externalCounterValues: externalCounterValueSchema,
+      unlockedBadges: unlockedBadgeSchema,
+    },
   });
+
+export type DbConnection = ReturnType<typeof createDbConnection>;

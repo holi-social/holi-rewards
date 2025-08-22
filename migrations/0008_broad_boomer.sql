@@ -1,0 +1,1 @@
+ALTER TABLE "unlocked_badge" ADD COLUMN "seen_at" timestamp with time zone DEFAULT NULL;
