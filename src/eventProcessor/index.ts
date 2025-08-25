@@ -42,7 +42,7 @@ export const handler: Handler = async (request): Promise<Response> => {
 
   const { eventType, userId } = body.message.attributes;
   if (!userId) {
-    logger.debug("Event without userId, not meant for us");
+    logger.info("Event without userId, not meant for us", { message: body.message });
     return PubsubResponse.ack();
   }
 

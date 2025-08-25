@@ -19,13 +19,11 @@ export class BadgesService {
   async unlockNewBadgesForUser(userId: string) {
     const potentiallyEligibleBadges = await this.badgeConfigsUserHasNotUnlocked(userId);
 
-    const unlockedBadges = [];
     for (const badge of potentiallyEligibleBadges) {
       const isEligible = await badge.userIsEligible(userId, this.db);
       if (!isEligible) continue;
 
-      const unlockedBadge = await this.repo.unlockBadge(userId, badge);
-      unlockedBadges.push(unlockedBadge);
+      await this.repo.unlockBadge(userId, badge);
     }
   }
 
