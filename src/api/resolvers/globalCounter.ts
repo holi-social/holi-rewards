@@ -1,12 +1,10 @@
-import { createDbConnection } from "../../db/connection.ts";
 import { ExternalCounterValueRepository } from "../../db/repository/externalCounter.ts";
 import { TransactionRepository } from "../../db/repository/transaction.ts";
+import type { Resolver } from "./types.ts";
 
-const resolver = async (): Promise<{ counter: number }> => {
-  const dbConnection = createDbConnection();
-
-  const transactions = new TransactionRepository(dbConnection);
-  const externalCounter = new ExternalCounterValueRepository(dbConnection);
+const resolver: Resolver<{ counter: number }> = async (_, _args, { db }) => {
+  const transactions = new TransactionRepository(db);
+  const externalCounter = new ExternalCounterValueRepository(db);
 
   const onPlatformCounter = await transactions.countAll();
   const offPlatformCounter = await externalCounter.getLatestValue();

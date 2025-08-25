@@ -1,13 +1,19 @@
 import { METHOD } from "@std/http/unstable-method";
 import type { Route } from "@std/http/unstable-route";
 import { createYoga } from "graphql-yoga";
+import { createDbConnection } from "../db/connection.ts";
 import { handler as eventsHandler } from "../eventProcessor/index.ts";
 import { getLogger } from "../logger.ts";
+import type { GraphQLUserContext } from "./context.ts";
 import schema from "./schema.ts";
 
-const yoga = createYoga({
+// biome-ignore lint/complexity/noBannedTypes: type shenanigans
+const yoga = createYoga<{}, GraphQLUserContext>({
   schema,
   logging: getLogger("yoga"),
+  context: () => ({
+    db: createDbConnection(),
+  }),
   graphiql: {
     defaultHeaders: JSON.stringify({
       "X-Holi-User-ID": "00000000-0000-0000-0000-000000000000",

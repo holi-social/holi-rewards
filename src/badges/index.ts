@@ -1,6 +1,5 @@
 import { createDbConnection, type DbConnection } from "../db/connection.ts";
 import { UnlockedBadgeRepository } from "../db/repository/unlockedBadge.ts";
-import { getLogger } from "../logger.ts";
 import allBadges from "./config.ts";
 import type { BadgeConfig, InProgressBadge, UnlockedBadge } from "./types.ts";
 
@@ -51,8 +50,6 @@ export class BadgesService {
       });
     }
 
-    getLogger().debug({ potentialBadges, result });
-
     return result;
   }
 
@@ -75,12 +72,5 @@ export class BadgesService {
     const slugsAlreadyUnlocked = alreadyUnlocked.map((badge) => badge.badgeSlug);
 
     return this.badgeConfigs.filter(({ slug }) => !slugsAlreadyUnlocked.includes(slug));
-  }
-
-  private badgeConfigBySlug(slug: string): BadgeConfig {
-    const badgeConfig = this.badgeConfigs.find((b) => b.slug === slug);
-    if (!badgeConfig) throw new Error("Invalid badge slug provided");
-
-    return badgeConfig;
   }
 }

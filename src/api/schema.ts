@@ -1,4 +1,5 @@
 import { createSchema } from "graphql-yoga";
+import type { GraphQLUserContext } from "./context.ts";
 import { DateTimeISOResolver, DateTimeISOTypeDefinition } from "./resolvers/datetime.ts";
 import { mutations, queries } from "./resolvers/index.ts";
 
@@ -57,7 +58,7 @@ export const schemaTypes = `
   }
 `;
 
-export const schema = createSchema({
+export const schema = createSchema<GraphQLUserContext>({
   typeDefs: schemaTypes,
   resolvers: {
     DateTimeISO: DateTimeISOResolver,
