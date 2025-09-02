@@ -14,6 +14,7 @@ export const schema = createSchema({
       ChallengeSubmitted
       GoodDeedPostCreated
       ExternalVolunteeringOpportunityStarted
+      TaskCompleted
     }
 
     type Transaction {
