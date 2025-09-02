@@ -19,6 +19,7 @@
     "jsr:@std/path@^1.1.1": "1.1.1",
     "jsr:@std/random@~0.1.2": "0.1.2",
     "jsr:@std/streams@^1.0.10": "1.0.10",
+    "jsr:@valibot/valibot@^1.1.0": "1.1.0",
     "npm:@biomejs/biome@2.0.6": "2.0.6",
     "npm:@types/node@24.0.7": "24.0.7",
     "npm:@types/pg@^8.15.5": "8.15.5",
@@ -102,6 +103,9 @@
     },
     "@std/streams@1.0.10": {
       "integrity": "75c0b1431873cd0d8b3d679015220204d36d3c7420d93b60acfc379eb0dc30af"
+    },
+    "@valibot/valibot@1.1.0": {
+      "integrity": "2617f02b532011b8140926899d420a3e1bbb0fcb7cdf8e7b669df89e7edd7f5f"
     }
   },
   "npm": {
@@ -855,6 +859,7 @@
       "jsr:@std/encoding@^1.0.10",
       "jsr:@std/http@^1.0.19",
       "jsr:@std/random@~0.1.2",
+      "jsr:@valibot/valibot@^1.1.0",
       "npm:@biomejs/biome@2.0.6",
       "npm:@types/pg@^8.15.5",
       "npm:drizzle-kit@~0.31.4",

@@ -40,7 +40,7 @@ const routes: Route[] = [
     },
   },
   {
-    pattern: new URLPattern({ pathname: "/pubsub" }),
+    pattern: new URLPattern({ pathname: "/events" }),
     method: [METHOD.Post],
     handler: () => Response.json({ ok: true }, { status: STATUS_CODE.OK }),
   },
