@@ -60,6 +60,19 @@ deploy:staging:
     - if: $CI_COMMIT_BRANCH == "main"
       when: on_success
 
+deploy:staging:unified:
+  needs: ["deploy:staging"]
+  stage: deploy
+  trigger:
+    project: "app/holi-unified-api"
+    branch: main
+    forward:
+      yaml_variables: false
+      pipeline_variables: false
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: on_success
+
 deploy:production:
   extends: .deploy
   environment:
@@ -70,3 +83,16 @@ deploy:production:
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
       when: manual
+
+deploy:production:unified:
+  needs: ["deploy:production"]
+  stage: deploy
+  trigger:
+    project: "app/holi-unified-api"
+    branch: main
+    forward:
+      yaml_variables: false
+      pipeline_variables: false
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: on_success
