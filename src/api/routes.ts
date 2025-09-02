@@ -1,7 +1,7 @@
 import { METHOD } from "@std/http/unstable-method";
 import type { Route } from "@std/http/unstable-route";
 import { createYoga } from "graphql-yoga";
-import { handler as pubsubHandler } from "../eventProcessor/index.ts";
+import { handler as eventsHandler } from "../eventProcessor/index.ts";
 import { getLogger } from "../logger.ts";
 import schema from "./schema.ts";
 
@@ -42,8 +42,8 @@ export default [
     },
   },
   {
-    pattern: new URLPattern({ pathname: "/pubsub" }),
+    pattern: new URLPattern({ pathname: "/events" }),
     method: [METHOD.Post],
-    handler: pubsubHandler,
+    handler: eventsHandler,
   },
 ] satisfies Route[];

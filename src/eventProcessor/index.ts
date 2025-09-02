@@ -1,4 +1,3 @@
-import { decodeBase64 } from "@std/encoding/base64";
 import { STATUS_CODE, STATUS_TEXT, type StatusCode } from "@std/http";
 import type { Handler } from "@std/http/unstable-route";
 import { match } from "ts-pattern";
@@ -8,48 +7,29 @@ import { TransactionRepository } from "../db/repository/transaction.ts";
 import { FeatureFlag, FeatureFlags } from "../featureFlag.ts";
 import { getLogger } from "../logger.ts";
 import { RewardType } from "../types.ts";
-import { extractJwt, shouldSkipJwtVerification, verifyGoogleJWT } from "./jwt.ts";
-import { EventType, type FeedPostCreatedPayload, type PubSubEvent } from "./types.ts";
+import { EventType, safeParseEvent } from "./schema.ts";
 
 const logger = getLogger("eventProcessor");
 
-const decodePayload = <PayloadType extends object>(data: string): PayloadType => {
-  return JSON.parse(new TextDecoder().decode(decodeBase64(data))) as PayloadType;
-};
-
 const featureFlags = FeatureFlags.build();
 
-const PubsubResponse = {
+const EventResponse = {
   ack: () => Response.json({ ok: true }, { status: STATUS_CODE.OK }),
   nack: (status: StatusCode) => Response.json({ ok: false, error: STATUS_TEXT[status] }, { status }),
 };
 
 export const handler: Handler = async (request): Promise<Response> => {
-  if (!shouldSkipJwtVerification()) {
-    const jwt = extractJwt(request);
-    if (!jwt) {
-      return PubsubResponse.nack(STATUS_CODE.Forbidden);
-    }
-
-    const jwtIsValid = await verifyGoogleJWT(jwt);
-    if (!jwtIsValid) {
-      logger.error("Could not verify JWT", { jwt });
-      return PubsubResponse.nack(STATUS_CODE.Forbidden);
-    }
+  const parseResult = safeParseEvent(await request.json());
+  if (!parseResult.success) {
+    return EventResponse.nack(STATUS_CODE.BadRequest);
   }
 
-  const body: PubSubEvent = await request.json();
-
-  const { eventType, userId } = body.message.attributes;
-  if (!userId) {
-    logger.info("Event without userId, not meant for us", { message: body.message });
-    return PubsubResponse.ack();
-  }
+  const { userId, eventType, data } = parseResult.output;
 
   const isFeatureFlagEnabled = await featureFlags.isEnabled(FeatureFlag.PHASE_1, userId);
   if (!isFeatureFlagEnabled) {
     logger.info("Feature flag is not enabled for user {userId}", { userId });
-    return PubsubResponse.ack();
+    return EventResponse.ack();
   }
 
   const dbConnection = createDbConnection();
@@ -65,8 +45,7 @@ export const handler: Handler = async (request): Promise<Response> => {
       });
     })
     .with(EventType.FEED_POST_CREATED, async () => {
-      const payload = decodePayload<FeedPostCreatedPayload>(body.message.data);
-      if (payload.category !== "good-deed") {
+      if (data.category !== "good-deed") {
         return;
       }
 
@@ -87,5 +66,5 @@ export const handler: Handler = async (request): Promise<Response> => {
 
   await badges.unlockNewBadgesForUser(userId);
 
-  return PubsubResponse.ack();
+  return EventResponse.ack();
 };
