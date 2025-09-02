@@ -2,6 +2,7 @@ export enum EventType {
   CHALLENGE_SUBMITTED = "ChallengeSubmitted",
   FEED_POST_CREATED = "FeedPostCreated",
   EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED = "ExternalVolunteeringOpportunityStarted",
+  TASK_COMPLETED = "TaskCompleted",
 }
 
 export type MessageAttributes = {
@@ -25,5 +26,9 @@ export type PubSubEvent = {
 export type ChallengeSubmittedPayload = Record<PropertyKey, never>;
 
 export type FeedPostCreatedPayload = {
+  category: string;
+};
+
+export type TaskCompletedPayload = {
   category: string;
 };

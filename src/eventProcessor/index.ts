@@ -9,7 +9,7 @@ import { FeatureFlag, FeatureFlags } from "../featureFlag.ts";
 import { getLogger } from "../logger.ts";
 import { RewardType } from "../types.ts";
 import { extractJwt, shouldSkipJwtVerification, verifyGoogleJWT } from "./jwt.ts";
-import { EventType, type FeedPostCreatedPayload, type PubSubEvent } from "./types.ts";
+import { EventType, type FeedPostCreatedPayload, type PubSubEvent, type TaskCompletedPayload } from "./types.ts";
 
 const logger = getLogger("eventProcessor");
 
@@ -42,7 +42,9 @@ export const handler: Handler = async (request): Promise<Response> => {
 
   const { eventType, userId } = body.message.attributes;
   if (!userId) {
-    logger.info("Event without userId, not meant for us", { message: body.message });
+    logger.info("Event without userId, not meant for us", {
+      message: body.message,
+    });
     return PubsubResponse.ack();
   }
 
@@ -79,6 +81,18 @@ export const handler: Handler = async (request): Promise<Response> => {
     .with(EventType.EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED, async () => {
       await repo.create({
         rewardType: RewardType.EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED,
+        userId,
+        rewardValue: 1,
+      });
+    })
+    .with(EventType.TASK_COMPLETED, async () => {
+      const payload = decodePayload<TaskCompletedPayload>(body.message.data);
+      if (payload.category !== "READY") {
+        return;
+      }
+
+      await repo.create({
+        rewardType: RewardType.TASK_COMPLETED,
         userId,
         rewardValue: 1,
       });
