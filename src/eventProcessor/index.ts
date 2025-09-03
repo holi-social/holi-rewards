@@ -62,6 +62,16 @@ export const handler: Handler = async (request): Promise<Response> => {
         rewardValue: 1,
       });
     })
+    .with(EventType.TASK_COMPLETED, async () => {
+      if (data.category !== "READY") {
+        return;
+      }
+      await repo.create({
+        rewardType: RewardType.TASK_COMPLETED,
+        userId,
+        rewardValue: 1,
+      });
+    })
     .otherwise(() => logger.info(`Message with eventType ${eventType} won't be handled`));
 
   await badges.unlockNewBadgesForUser(userId);
