@@ -4,10 +4,14 @@ export enum EventType {
   CHALLENGE_SUBMITTED = "ChallengeSubmitted",
   FEED_POST_CREATED = "FeedPostCreated",
   EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED = "ExternalVolunteeringOpportunityStarted",
+  TASK_COMPLETED = "TaskCompleted",
 }
 
 const emptyPayloadSchema = v.optional(v.object({}));
 const feedPostCreatedPayloadSchema = v.object({
+  category: v.pipe(v.string(), v.nonEmpty()),
+});
+const taskCompletedPayloadSchema = v.object({
   category: v.pipe(v.string(), v.nonEmpty()),
 });
 
@@ -20,6 +24,11 @@ const eventSchema = v.variant("eventType", [
     ...metadataSchema.entries,
     eventType: v.literal(EventType.FEED_POST_CREATED),
     data: feedPostCreatedPayloadSchema,
+  }),
+  v.object({
+    ...metadataSchema.entries,
+    eventType: v.literal(EventType.TASK_COMPLETED),
+    data: taskCompletedPayloadSchema,
   }),
   v.object({
     ...metadataSchema.entries,
