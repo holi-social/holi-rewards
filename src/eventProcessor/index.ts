@@ -21,11 +21,11 @@ const EventResponse = {
 export const handler: Handler = async (request): Promise<Response> => {
   const parseResult = safeParseEvent(await request.json());
   if (!parseResult.success) {
-    logger.info("Invalid event:", { event: parseResult });
+    logger.info("Failed to parse event", { event: parseResult });
     return EventResponse.nack(STATUS_CODE.BadRequest);
   }
 
-  logger.info("Event:", { event: parseResult.output });
+  logger.info("Event parsed successfully", { event: parseResult.output });
 
   const { userId, eventType, data } = parseResult.output;
 
