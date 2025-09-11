@@ -1,25 +1,40 @@
+import { randomUUID } from "node:crypto";
 import { STATUS_CODE, STATUS_TEXT } from "@std/http";
 import { METHOD } from "@std/http/unstable-method";
 import { type Route, route } from "@std/http/unstable-route";
 import { createSchema, createYoga } from "graphql-yoga";
+import { DateTimeISOResolver } from "./resolvers/datetime.ts";
+import type { mutations, queries } from "./resolvers/index.ts";
+import { schemaTypes } from "./schema.ts";
 
 const yoga = createYoga({
   schema: createSchema({
-    typeDefs: `
-    type RewardsCounter {
-      counter: Int
-    }
-
-    type Query {
-      counter: RewardsCounter!
-      globalCounter: RewardsCounter!
-    }
-  `,
+    typeDefs: schemaTypes,
     resolvers: {
+      DateTimeISO: DateTimeISOResolver,
       Query: {
-        counter: () => ({ counter: 10 }),
-        globalCounter: () => ({ counter: 100 }),
-      },
+        counter: () => Promise.resolve({ counter: 10 }),
+        globalCounter: () => Promise.resolve({ counter: 100 }),
+        transactions: () =>
+          Promise.resolve({
+            totalResults: 0,
+            data: [],
+          }),
+        badges: () =>
+          Promise.resolve({
+            unlocked: [],
+            inProgress: [],
+          }),
+      } satisfies typeof queries,
+
+      Mutation: {
+        markBadgeUnlockAsSeen: () =>
+          Promise.resolve({
+            id: randomUUID(),
+            slug: "WellDoneBadge",
+            unlockedAt: Temporal.Now.zonedDateTimeISO(),
+          }),
+      } satisfies typeof mutations,
     },
   }),
 });
