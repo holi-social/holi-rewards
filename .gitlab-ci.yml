@@ -15,8 +15,8 @@ lint:
     paths:
       - code-quality.json
   rules:
-    - if: $CI_COMMIT_BRANCH
     - if: $CI_MERGE_REQUEST_ID
+    - if: $CI_COMMIT_BRANCH == "main"
 
 test:
   image:
@@ -31,12 +31,15 @@ test:
     reports:
       junit: tests.xml
   rules:
-    - if: $CI_COMMIT_BRANCH
     - if: $CI_MERGE_REQUEST_ID
+    - if: $CI_COMMIT_BRANCH == "main"
 
 build:docker:
   image: europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:28
   stage: build
+  needs:
+    - lint
+    - test
   services:
     - name: europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:28-dind
       alias: docker
