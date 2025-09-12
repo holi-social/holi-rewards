@@ -1,13 +1,13 @@
-import type { YogaInitialContext } from "graphql-yoga";
 import { TransactionRepository } from "../../db/repository/transaction.ts";
 import { authenticatedUser } from "./helpers.ts";
+import type { Resolver } from "./types.ts";
 
-const resolver = async (
-  _: never,
-  _args: Record<string, never>,
-  { request }: YogaInitialContext,
+const resolver: Resolver<{ counter: number | null }> = async (
+  _,
+  _args,
+  { request, db },
 ): Promise<{ counter: number | null }> => {
-  const repo = TransactionRepository.build();
+  const repo = new TransactionRepository(db);
   const userId = authenticatedUser(request);
 
   const counter = await repo.getCounterForUser(userId);

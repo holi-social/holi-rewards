@@ -18,7 +18,7 @@ export const repeatedActionBadge = (slug: string, rewardType: RewardType, progre
 
     userIsEligible: async (userId, db) => {
       const count = await progressFn(userId, db);
-      return count === progressGoal;
+      return count >= progressGoal;
     },
   };
 };

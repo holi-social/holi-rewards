@@ -7,9 +7,9 @@ import type { Resolver } from "./types.ts";
 
 const logger = getLogger("graphql", "markBadgeUnlockAsSeen");
 
-const resolver: Resolver<UnlockedBadge, { unlockId: string }> = async (_, { unlockId }, { request }) => {
+const resolver: Resolver<UnlockedBadge, { unlockId: string }> = async (_, { unlockId }, { request, db }) => {
   const userId = authenticatedUser(request);
-  const badges = BadgesService.build();
+  const badges = BadgesService.build(db);
 
   try {
     return await badges.markBadgeUnlockAsSeen(userId, unlockId);

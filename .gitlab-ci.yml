@@ -1,5 +1,5 @@
 stages:
-  - lint
+  - test
   - build
   - deploy
 
@@ -7,13 +7,29 @@ lint:
   image:
     name: europe-north1-docker.pkg.dev/holi-shared/ghcr-io-remote/biomejs/biome:2.0.6
     entrypoint: [""]
-  stage: lint
+  stage: test
   script:
     - biome ci --reporter=gitlab --colors=off > /tmp/code-quality.json
     - cp /tmp/code-quality.json code-quality.json
   artifacts:
     paths:
       - code-quality.json
+  rules:
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_MERGE_REQUEST_ID
+
+test:
+  image:
+    name: europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/denoland/deno:2.5.0
+  stage: test
+  script:
+    - deno test -A --reporter junit --junit-path tests.xml tests/
+  artifacts:
+    when: always
+    paths:
+      - tests.xml
+    reports:
+      junit: tests.xml
   rules:
     - if: $CI_COMMIT_BRANCH
     - if: $CI_MERGE_REQUEST_ID

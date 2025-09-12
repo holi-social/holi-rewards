@@ -8,9 +8,9 @@ type BadgesOverview = {
   inProgress: InProgressBadge[];
 };
 
-const resolver: Resolver<BadgesOverview> = async (_, _args, { request }) => {
+const resolver: Resolver<BadgesOverview> = async (_, _args, { request, db }) => {
   const userId = authenticatedUser(request);
-  const badges = BadgesService.build();
+  const badges = BadgesService.build(db);
 
   return {
     unlocked: await badges.getUnlockedBadgesForUser(userId),

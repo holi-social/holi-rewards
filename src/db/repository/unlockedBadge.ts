@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import type { BadgeConfig } from "../../badges/types.ts";
 import type { DbConnection } from "../connection.ts";
 import { unlockedBadge as table } from "../schema.ts";
@@ -30,7 +30,7 @@ export class UnlockedBadgeRepository {
       .set({
         seenAt: timestamp ?? Temporal.Now.zonedDateTimeISO("UTC"),
       })
-      .where(and(eq(table.userId, userId), eq(table.id, unlockId)))
+      .where(and(eq(table.userId, userId), eq(table.id, unlockId), isNull(table.seenAt)))
       .returning();
 
     if (updatedRow.length === 0) {
