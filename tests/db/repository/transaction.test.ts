@@ -65,6 +65,7 @@ const generateTransactions = (
     sample([
       RewardType.CHALLENGE_SUBMITTED,
       RewardType.EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED,
+      RewardType.TASK_COMPLETED,
       RewardType.GOOD_DEED_POST_CREATED,
     ])!;
 
