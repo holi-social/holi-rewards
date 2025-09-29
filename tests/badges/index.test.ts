@@ -13,8 +13,8 @@ Deno.test.beforeEach(async () => await resetDb(db));
 const userId = crypto.randomUUID();
 const repo = new UnlockedBadgeRepository(db);
 const badgeConfig = [
-  firstTimeBadge("first-time", RewardType.TASK_COMPLETED),
-  repeatedActionBadge("fifth-time", RewardType.TASK_COMPLETED, 5),
+  firstTimeBadge("first-time", [RewardType.TASK_COMPLETED]),
+  repeatedActionBadge("fifth-time", [RewardType.TASK_COMPLETED], 5),
 ];
 
 const service = new BadgesService(repo, db, badgeConfig);
