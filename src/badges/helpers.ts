@@ -1,13 +1,13 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { transaction as transactionsTable } from "../db/schema.ts";
 import type { RewardType } from "../types.ts";
 import type { BadgeConfig, GetProgress } from "./types.ts";
 
-export const repeatedActionBadge = (slug: string, rewardType: RewardType, progressGoal: number): BadgeConfig => {
+export const repeatedActionBadge = (slug: string, rewardTypes: RewardType[], progressGoal: number): BadgeConfig => {
   const progressFn: GetProgress = (userId, db) =>
     db.$count(
       transactionsTable,
-      and(eq(transactionsTable.userId, userId), eq(transactionsTable.rewardType, rewardType)),
+      and(eq(transactionsTable.userId, userId), inArray(transactionsTable.rewardType, rewardTypes)),
     );
 
   return {
@@ -23,4 +23,4 @@ export const repeatedActionBadge = (slug: string, rewardType: RewardType, progre
   };
 };
 
-export const firstTimeBadge = (slug: string, rewardType: RewardType) => repeatedActionBadge(slug, rewardType, 1);
+export const firstTimeBadge = (slug: string, rewardTypes: RewardType[]) => repeatedActionBadge(slug, rewardTypes, 1);

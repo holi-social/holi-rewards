@@ -1,3 +1,4 @@
+import { assert } from "@std/assert";
 import { createDbConnection, type DbConnection } from "../db/connection.ts";
 import { UnlockedBadgeRepository } from "../db/repository/unlockedBadge.ts";
 import allBadges from "./config.ts";
@@ -13,7 +14,9 @@ export class BadgesService {
     private readonly repo: UnlockedBadgeRepository,
     private readonly db: DbConnection,
     private readonly badgeConfigs: BadgeConfig[] = allBadges,
-  ) {}
+  ) {
+    BadgesService.validateBadgeConfig(badgeConfigs);
+  }
 
   async unlockNewBadgesForUser(userId: string) {
     const potentiallyEligibleBadges = await this.badgeConfigsUserHasNotUnlocked(userId);
@@ -72,5 +75,10 @@ export class BadgesService {
     const slugsAlreadyUnlocked = alreadyUnlocked.map((badge) => badge.badgeSlug);
 
     return this.badgeConfigs.filter(({ slug }) => !slugsAlreadyUnlocked.includes(slug));
+  }
+
+  private static validateBadgeConfig(config: BadgeConfig[]): void {
+    const slugs = config.map((badge) => badge.slug);
+    assert(new Set(slugs).size === slugs.length, "Badge slugs must be unique");
   }
 }

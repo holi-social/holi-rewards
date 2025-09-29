@@ -18,7 +18,7 @@ Deno.test("repeatedActionBadge should count progress correctly", async () => {
     { userId, rewardType: RewardType.TASK_COMPLETED, createdAt: randomTimestampInLastWeek() },
   ]);
 
-  const badge = repeatedActionBadge("test-badge", RewardType.TASK_COMPLETED, 5);
+  const badge = repeatedActionBadge("test-badge", [RewardType.TASK_COMPLETED], 5);
 
   const progressMade = await badge.progressMade(userId, db);
   assertEquals(progressMade, 3);
@@ -27,24 +27,40 @@ Deno.test("repeatedActionBadge should count progress correctly", async () => {
 Deno.test("repeatedActionBadge should correctly determine eligibility", async () => {
   await db.insert(transaction).values([
     { userId, rewardType: RewardType.TASK_COMPLETED, createdAt: randomTimestampInLastWeek() },
-    { userId, rewardType: RewardType.TASK_COMPLETED, createdAt: randomTimestampInLastWeek() },
+    {
+      userId,
+      rewardType: RewardType.EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED,
+      createdAt: randomTimestampInLastWeek(),
+    },
     { userId, rewardType: RewardType.TASK_COMPLETED, createdAt: randomTimestampInLastWeek() },
   ]);
 
-  const badge = repeatedActionBadge("test-badge", RewardType.TASK_COMPLETED, 5);
+  const badge = repeatedActionBadge(
+    "test-badge",
+    [RewardType.TASK_COMPLETED, RewardType.EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED],
+    5,
+  );
 
   assertFalse(await badge.userIsEligible(userId, db), "user should not be eligible yet");
 
   await db.insert(transaction).values([
     { userId, rewardType: RewardType.TASK_COMPLETED, createdAt: randomTimestampInLastWeek() },
-    { userId, rewardType: RewardType.TASK_COMPLETED, createdAt: randomTimestampInLastWeek() },
+    {
+      userId,
+      rewardType: RewardType.EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED,
+      createdAt: randomTimestampInLastWeek(),
+    },
   ]);
 
   assert(await badge.userIsEligible(userId, db), "user should now be exactly eligible");
 
   await db.insert(transaction).values([
     { userId, rewardType: RewardType.TASK_COMPLETED, createdAt: randomTimestampInLastWeek() },
-    { userId, rewardType: RewardType.TASK_COMPLETED, createdAt: randomTimestampInLastWeek() },
+    {
+      userId,
+      rewardType: RewardType.EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED,
+      createdAt: randomTimestampInLastWeek(),
+    },
   ]);
 
   assert(await badge.userIsEligible(userId, db), "user should still be eligible");
