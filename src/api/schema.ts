@@ -31,6 +31,7 @@ export const schemaTypes = `
   type UnlockedBadge {
     id: ID!
     slug: String!
+    progressGoal: Int!
     unlockedAt: DateTimeISO!
     seenAt: DateTimeISO
   }

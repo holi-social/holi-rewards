@@ -16,6 +16,7 @@ export type BadgeConfig = {
 export type UnlockedBadge = {
   id: string;
   slug: string;
+  progressGoal?: number;
   unlockedAt: Temporal.ZonedDateTime;
   seenAt?: Temporal.ZonedDateTime;
 };

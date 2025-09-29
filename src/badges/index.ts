@@ -34,6 +34,7 @@ export class BadgesService {
     return badges.map((row) => ({
       id: row.id,
       slug: row.badgeSlug,
+      progressGoal: this.getBadgeConfigBySlug(row.badgeSlug)?.progressGoal,
       unlockedAt: row.unlockedAt,
       seenAt: row.seenAt,
     }));
@@ -65,6 +66,7 @@ export class BadgesService {
     return {
       id: updatedRow.id,
       slug: updatedRow.badgeSlug,
+      progressGoal: this.getBadgeConfigBySlug(updatedRow.badgeSlug)?.progressGoal,
       unlockedAt: updatedRow.unlockedAt,
       seenAt: updatedRow.seenAt,
     };
@@ -75,6 +77,10 @@ export class BadgesService {
     const slugsAlreadyUnlocked = alreadyUnlocked.map((badge) => badge.badgeSlug);
 
     return this.badgeConfigs.filter(({ slug }) => !slugsAlreadyUnlocked.includes(slug));
+  }
+
+  private getBadgeConfigBySlug(slug: string): BadgeConfig | undefined {
+    return this.badgeConfigs.find((cfg) => cfg.slug === slug);
   }
 
   private static validateBadgeConfig(config: BadgeConfig[]): void {
