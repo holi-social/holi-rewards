@@ -18,14 +18,14 @@ export class BadgesService {
     BadgesService.validateBadgeConfig(badgeConfigs);
   }
 
-  async unlockNewBadgesForUser(userId: string) {
+  async unlockNewBadgesForUser(userId: string, seenAt?: Temporal.ZonedDateTime): Promise<void> {
     const potentiallyEligibleBadges = await this.badgeConfigsUserHasNotUnlocked(userId);
 
     for (const badge of potentiallyEligibleBadges) {
       const isEligible = await badge.userIsEligible(userId, this.db);
       if (!isEligible) continue;
 
-      await this.repo.unlockBadge(userId, badge);
+      await this.repo.unlockBadge(userId, badge, seenAt);
     }
   }
 

@@ -8,13 +8,14 @@ type UnlockedBadgeRow = typeof table.$inferSelect;
 export class UnlockedBadgeRepository {
   constructor(private readonly db: DbConnection) {}
 
-  async unlockBadge(userId: string, badge: BadgeConfig): Promise<UnlockedBadgeRow> {
+  async unlockBadge(userId: string, badge: BadgeConfig, seenAt?: Temporal.ZonedDateTime): Promise<UnlockedBadgeRow> {
     return (
       await this.db
         .insert(table)
         .values({
           userId,
           badgeSlug: badge.slug,
+          seenAt,
         })
         .returning()
     )[0];
