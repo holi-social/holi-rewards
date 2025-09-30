@@ -1,6 +1,6 @@
 services:
   app:
-    image: denoland/deno:2.4.0
+    image: denoland/deno:2.5.2
     working_dir: /app
     env_file:
       - .env
