@@ -1,7 +1,7 @@
 import { STATUS_CODE, STATUS_TEXT } from "@std/http";
 import { route } from "@std/http/unstable-route";
 import fakeServer from "./api/fake.ts";
-import routes from "./api/routes.ts";
+import buildRoutes from "./api/routes.ts";
 import { configureLogger, getLogger } from "./logger.ts";
 
 await configureLogger();
@@ -27,7 +27,7 @@ if (Deno.env.get("FAKE") === "true") {
       },
     },
     route(
-      routes,
+      buildRoutes(),
       () =>
         Response.json(
           { error: STATUS_TEXT[STATUS_CODE.NotFound] },
