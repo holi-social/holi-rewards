@@ -11,7 +11,7 @@
     "db:seed": "deno -A ./src/db/scripts/seed.ts"
   },
   "imports": {
-    "@biomejs/biome": "npm:@biomejs/biome@2.0.6",
+    "@biomejs/biome": "npm:@biomejs/biome@2.2.4",
     "@electric-sql/pglite": "npm:@electric-sql/pglite@^0.3.8",
     "@graphql-tools/executor-http": "npm:@graphql-tools/executor-http@^3.0.1",
     "@logtape/logtape": "jsr:@logtape/logtape@^1.1.0",
