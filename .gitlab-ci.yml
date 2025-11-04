@@ -108,7 +108,7 @@ deploy:production:unified:
   stage: deploy
   trigger:
     project: "app/holi-unified-api"
-    branch: main
+    branch: production
     forward:
       yaml_variables: false
       pipeline_variables: false
