@@ -14,6 +14,7 @@ export const schemaTypes = `
     ChallengeSubmitted
     GoodDeedPostCreated
     ExternalVolunteeringOpportunityStarted
+    ExternalPetitionSigned
     TaskCompleted
   }
 

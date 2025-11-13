@@ -32,6 +32,7 @@ for (const userId of userUuids) {
           RewardType.CHALLENGE_SUBMITTED,
           RewardType.GOOD_DEED_POST_CREATED,
           RewardType.EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED,
+          RewardType.EXTERNAL_PETITION_SIGNED,
           RewardType.TASK_COMPLETED,
         ])!,
         rewardValue: 1,

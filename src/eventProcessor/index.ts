@@ -63,6 +63,13 @@ export const handler = async (request: Request, db: DbConnection): Promise<Respo
         rewardValue: 1,
       });
     })
+    .with({ eventType: EventType.EXTERNAL_PETITION_SIGNED }, async ({ userId }) => {
+      await repo.create({
+        rewardType: RewardType.EXTERNAL_PETITION_SIGNED,
+        userId,
+        rewardValue: 1,
+      });
+    })
     .with({ eventType: EventType.TASK_COMPLETED }, async ({ userId, data }) => {
       if (data.category !== "READY") {
         return;
