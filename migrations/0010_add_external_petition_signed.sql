@@ -1,0 +1,2 @@
+ALTER TYPE "public"."reward_type" ADD VALUE 'ExternalPetitionSigned';
+

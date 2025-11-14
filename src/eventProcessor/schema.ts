@@ -4,6 +4,7 @@ export enum EventType {
   CHALLENGE_SUBMITTED = "ChallengeSubmitted",
   FEED_POST_CREATED = "FeedPostCreated",
   EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED = "ExternalVolunteeringOpportunityStarted",
+  EXTERNAL_PETITION_SIGNED = "ExternalPetitionSigned",
   TASK_COMPLETED = "TaskCompleted",
 }
 
@@ -32,7 +33,11 @@ const eventSchema = v.variant("eventType", [
   }),
   v.object({
     ...metadataSchema.entries,
-    eventType: v.picklist([EventType.CHALLENGE_SUBMITTED, EventType.EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED]),
+    eventType: v.picklist([
+      EventType.CHALLENGE_SUBMITTED,
+      EventType.EXTERNAL_VOLUNTEERING_OPPORTUNITY_STARTED,
+      EventType.EXTERNAL_PETITION_SIGNED,
+    ]),
     data: emptyPayloadSchema,
   }),
 ]);
