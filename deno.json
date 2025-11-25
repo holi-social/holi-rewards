@@ -6,6 +6,7 @@
     "drizzle": "deno run -A drizzle-kit",
     "biome": "deno run -A @biomejs/biome",
     "fmt": "deno run -A @biomejs/biome check --fix",
+    "db:generate": "deno run -A drizzle-kit generate --config ./drizzle.config.ts",
     "db:migrate": "deno run -A drizzle-kit migrate --config ./drizzle.config.ts",
     "db:reset": "deno -A ./src/db/scripts/reset.ts",
     "db:seed": "deno -A ./src/db/scripts/seed.ts",
