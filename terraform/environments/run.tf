@@ -63,7 +63,7 @@ resource "google_cloud_run_service" "rewards_backend" {
         resources {
           limits = {
             cpu    = local.is_production ? "250m" : "250m"
-            memory = local.is_production ? "512Mi" : "512Mi"
+            memory = local.is_production ? "700Mi" : "700Mi"
           }
           requests = {
             cpu    = local.is_production ? "250m" : "250m"
