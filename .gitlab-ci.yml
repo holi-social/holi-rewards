@@ -5,7 +5,7 @@ stages:
 
 lint:
   image:
-    name: europe-north1-docker.pkg.dev/holi-shared/ghcr-io-remote/biomejs/biome:2.2.4
+    name: europe-north1-docker.pkg.dev/holi-shared/ghcr-io-remote/biomejs/biome:2.3
     entrypoint: [""]
   stage: test
   script:
